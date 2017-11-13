@@ -8,6 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		4F9225EA1FA24934009C1434 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225E91FA24934009C1434 /* main.cpp */; };
+		4F9225F51FA24D7E009C1434 /* Tensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F31FA24D7E009C1434 /* Tensor.cpp */; };
+		4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F81FA2520B009C1434 /* Network.cpp */; };
+		4F9225FE1FA2531C009C1434 /* TrainingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225FC1FA2531C009C1434 /* TrainingData.cpp */; };
+		4F9226021FA25360009C1434 /* FullyConnected.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226001FA25360009C1434 /* FullyConnected.cpp */; };
+		4F9226051FA25371009C1434 /* Convolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226031FA25371009C1434 /* Convolution.cpp */; };
+		4F9226081FA25462009C1434 /* BatchNormalisation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226061FA25462009C1434 /* BatchNormalisation.cpp */; };
+		4F92260B1FA2546F009C1434 /* Dropout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226091FA2546F009C1434 /* Dropout.cpp */; };
+		4F92260E1FA25481009C1434 /* Pooling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92260C1FA25481009C1434 /* Pooling.cpp */; };
+		4F9226111FA25491009C1434 /* Bias.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92260F1FA25491009C1434 /* Bias.cpp */; };
+		4F9226181FA254C8009C1434 /* Linear Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226161FA254C8009C1434 /* Linear Unit.cpp */; };
+		4F92261B1FA254D8009C1434 /* Binary Step.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226191FA254D8009C1434 /* Binary Step.cpp */; };
+		4F92261E1FA254EA009C1434 /* Logistic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92261C1FA254EA009C1434 /* Logistic.cpp */; };
+		4F9226211FA25503009C1434 /* Tangent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92261F1FA25503009C1434 /* Tangent.cpp */; };
+		4F9226241FA2552A009C1434 /* Softsign.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226221FA2552A009C1434 /* Softsign.cpp */; };
+		4F9226271FA25533009C1434 /* Softplus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226251FA25533009C1434 /* Softplus.cpp */; };
+		4F92262A1FA25746009C1434 /* Operation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226281FA25746009C1434 /* Operation.cpp */; };
+		4F92262E1FA25785009C1434 /* Graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92262C1FA25785009C1434 /* Graph.cpp */; };
+		4F9226371FA35603009C1434 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226351FA35603009C1434 /* Layer.cpp */; };
+		4FA30E1C1FB0655A0035373F /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA30E1B1FB0655A0035373F /* OpenCL.framework */; };
+		4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */; };
+		4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FC992151FA6648900266EE0 /* LearnableParameters.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +46,47 @@
 /* Begin PBXFileReference section */
 		4F9225E61FA24934009C1434 /* dendrite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dendrite; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9225E91FA24934009C1434 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		4F9225F31FA24D7E009C1434 /* Tensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tensor.cpp; sourceTree = "<group>"; };
+		4F9225F41FA24D7E009C1434 /* Tensor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tensor.hpp; sourceTree = "<group>"; };
+		4F9225F81FA2520B009C1434 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
+		4F9225F91FA2520B009C1434 /* Network.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Network.hpp; sourceTree = "<group>"; };
+		4F9225FC1FA2531C009C1434 /* TrainingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrainingData.cpp; sourceTree = "<group>"; };
+		4F9225FD1FA2531C009C1434 /* TrainingData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TrainingData.hpp; sourceTree = "<group>"; };
+		4F9226001FA25360009C1434 /* FullyConnected.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FullyConnected.cpp; sourceTree = "<group>"; };
+		4F9226011FA25360009C1434 /* FullyConnected.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FullyConnected.hpp; sourceTree = "<group>"; };
+		4F9226031FA25371009C1434 /* Convolution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convolution.cpp; sourceTree = "<group>"; };
+		4F9226041FA25371009C1434 /* Convolution.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Convolution.hpp; sourceTree = "<group>"; };
+		4F9226061FA25462009C1434 /* BatchNormalisation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BatchNormalisation.cpp; sourceTree = "<group>"; };
+		4F9226071FA25462009C1434 /* BatchNormalisation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BatchNormalisation.hpp; sourceTree = "<group>"; };
+		4F9226091FA2546F009C1434 /* Dropout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dropout.cpp; sourceTree = "<group>"; };
+		4F92260A1FA2546F009C1434 /* Dropout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dropout.hpp; sourceTree = "<group>"; };
+		4F92260C1FA25481009C1434 /* Pooling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Pooling.cpp; path = ../Pooling.cpp; sourceTree = "<group>"; };
+		4F92260D1FA25481009C1434 /* Pooling.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Pooling.hpp; path = ../Pooling.hpp; sourceTree = "<group>"; };
+		4F92260F1FA25491009C1434 /* Bias.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bias.cpp; sourceTree = "<group>"; };
+		4F9226101FA25491009C1434 /* Bias.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bias.hpp; sourceTree = "<group>"; };
+		4F9226161FA254C8009C1434 /* Linear Unit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "Linear Unit.cpp"; sourceTree = "<group>"; };
+		4F9226171FA254C8009C1434 /* Linear Unit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "Linear Unit.hpp"; sourceTree = "<group>"; };
+		4F9226191FA254D8009C1434 /* Binary Step.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "Binary Step.cpp"; sourceTree = "<group>"; };
+		4F92261A1FA254D8009C1434 /* Binary Step.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "Binary Step.hpp"; sourceTree = "<group>"; };
+		4F92261C1FA254EA009C1434 /* Logistic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logistic.cpp; sourceTree = "<group>"; };
+		4F92261D1FA254EA009C1434 /* Logistic.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logistic.hpp; sourceTree = "<group>"; };
+		4F92261F1FA25503009C1434 /* Tangent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tangent.cpp; sourceTree = "<group>"; };
+		4F9226201FA25503009C1434 /* Tangent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tangent.hpp; sourceTree = "<group>"; };
+		4F9226221FA2552A009C1434 /* Softsign.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Softsign.cpp; sourceTree = "<group>"; };
+		4F9226231FA2552A009C1434 /* Softsign.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Softsign.hpp; sourceTree = "<group>"; };
+		4F9226251FA25533009C1434 /* Softplus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Softplus.cpp; sourceTree = "<group>"; };
+		4F9226261FA25533009C1434 /* Softplus.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Softplus.hpp; sourceTree = "<group>"; };
+		4F9226281FA25746009C1434 /* Operation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Operation.cpp; sourceTree = "<group>"; };
+		4F9226291FA25746009C1434 /* Operation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Operation.hpp; sourceTree = "<group>"; };
+		4F92262C1FA25785009C1434 /* Graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graph.cpp; sourceTree = "<group>"; };
+		4F92262D1FA25785009C1434 /* Graph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Graph.hpp; sourceTree = "<group>"; };
+		4F9226331FA25FFA009C1434 /* Layers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Layers.hpp; sourceTree = "<group>"; };
+		4F9226351FA35603009C1434 /* Layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
+		4F9226361FA35603009C1434 /* Layer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Layer.hpp; sourceTree = "<group>"; };
+		4FA30E1B1FB0655A0035373F /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
+		4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = ElementWiseAdd.cl; sourceTree = "<group>"; };
+		4FC992151FA6648900266EE0 /* LearnableParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LearnableParameters.cpp; sourceTree = "<group>"; };
+		4FC992161FA6648900266EE0 /* LearnableParameters.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LearnableParameters.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FA30E1C1FB0655A0035373F /* OpenCL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +106,7 @@
 			children = (
 				4F9225E81FA24934009C1434 /* dendrite */,
 				4F9225E71FA24934009C1434 /* Products */,
+				4FA30E1A1FB0655A0035373F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,8 +122,120 @@
 			isa = PBXGroup;
 			children = (
 				4F9225E91FA24934009C1434 /* main.cpp */,
+				4F9225F71FA251E9009C1434 /* Network */,
+				4F9225F61FA251D2009C1434 /* Tensor */,
 			);
 			path = dendrite;
+			sourceTree = "<group>";
+		};
+		4F9225F61FA251D2009C1434 /* Tensor */ = {
+			isa = PBXGroup;
+			children = (
+				4F9225F31FA24D7E009C1434 /* Tensor.cpp */,
+				4F9225F41FA24D7E009C1434 /* Tensor.hpp */,
+				4F9225FB1FA2530A009C1434 /* Training Data */,
+			);
+			name = Tensor;
+			sourceTree = "<group>";
+		};
+		4F9225F71FA251E9009C1434 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				4F9225F81FA2520B009C1434 /* Network.cpp */,
+				4F9225F91FA2520B009C1434 /* Network.hpp */,
+				4F92262B1FA25773009C1434 /* Graph */,
+				4F9226151FA254A9009C1434 /* Activation Functions */,
+				4F9225FF1FA25323009C1434 /* Layers */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
+		4F9225FB1FA2530A009C1434 /* Training Data */ = {
+			isa = PBXGroup;
+			children = (
+				4F9225FC1FA2531C009C1434 /* TrainingData.cpp */,
+				4F9225FD1FA2531C009C1434 /* TrainingData.hpp */,
+			);
+			name = "Training Data";
+			sourceTree = "<group>";
+		};
+		4F9225FF1FA25323009C1434 /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				4F9226061FA25462009C1434 /* BatchNormalisation.cpp */,
+				4F9226071FA25462009C1434 /* BatchNormalisation.hpp */,
+				4F92260F1FA25491009C1434 /* Bias.cpp */,
+				4F9226101FA25491009C1434 /* Bias.hpp */,
+				4F9226031FA25371009C1434 /* Convolution.cpp */,
+				4F9226041FA25371009C1434 /* Convolution.hpp */,
+				4F9226091FA2546F009C1434 /* Dropout.cpp */,
+				4F92260A1FA2546F009C1434 /* Dropout.hpp */,
+				4F9226001FA25360009C1434 /* FullyConnected.cpp */,
+				4F9226011FA25360009C1434 /* FullyConnected.hpp */,
+				4F9226281FA25746009C1434 /* Operation.cpp */,
+				4F9226291FA25746009C1434 /* Operation.hpp */,
+				4F92260C1FA25481009C1434 /* Pooling.cpp */,
+				4F92260D1FA25481009C1434 /* Pooling.hpp */,
+				4FC992141FA656B200266EE0 /* Algorithms */,
+				4FC992181FA6648D00266EE0 /* Properties */,
+			);
+			name = Layers;
+			sourceTree = "<group>";
+		};
+		4F9226151FA254A9009C1434 /* Activation Functions */ = {
+			isa = PBXGroup;
+			children = (
+				4F9226191FA254D8009C1434 /* Binary Step.cpp */,
+				4F92261A1FA254D8009C1434 /* Binary Step.hpp */,
+				4F9226161FA254C8009C1434 /* Linear Unit.cpp */,
+				4F9226171FA254C8009C1434 /* Linear Unit.hpp */,
+				4F92261C1FA254EA009C1434 /* Logistic.cpp */,
+				4F92261D1FA254EA009C1434 /* Logistic.hpp */,
+				4F9226251FA25533009C1434 /* Softplus.cpp */,
+				4F9226261FA25533009C1434 /* Softplus.hpp */,
+				4F9226221FA2552A009C1434 /* Softsign.cpp */,
+				4F9226231FA2552A009C1434 /* Softsign.hpp */,
+				4F92261F1FA25503009C1434 /* Tangent.cpp */,
+				4F9226201FA25503009C1434 /* Tangent.hpp */,
+			);
+			name = "Activation Functions";
+			sourceTree = "<group>";
+		};
+		4F92262B1FA25773009C1434 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				4F92262C1FA25785009C1434 /* Graph.cpp */,
+				4F92262D1FA25785009C1434 /* Graph.hpp */,
+				4F9226351FA35603009C1434 /* Layer.cpp */,
+				4F9226361FA35603009C1434 /* Layer.hpp */,
+				4F9226331FA25FFA009C1434 /* Layers.hpp */,
+			);
+			name = Graph;
+			sourceTree = "<group>";
+		};
+		4FA30E1A1FB0655A0035373F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FA30E1B1FB0655A0035373F /* OpenCL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4FC992141FA656B200266EE0 /* Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */,
+			);
+			name = Algorithms;
+			sourceTree = "<group>";
+		};
+		4FC992181FA6648D00266EE0 /* Properties */ = {
+			isa = PBXGroup;
+			children = (
+				4FC992151FA6648900266EE0 /* LearnableParameters.cpp */,
+				4FC992161FA6648900266EE0 /* LearnableParameters.hpp */,
+			);
+			name = Properties;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,7 +295,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9225F51FA24D7E009C1434 /* Tensor.cpp in Sources */,
+				4F9226211FA25503009C1434 /* Tangent.cpp in Sources */,
+				4F92260B1FA2546F009C1434 /* Dropout.cpp in Sources */,
+				4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */,
+				4F9226021FA25360009C1434 /* FullyConnected.cpp in Sources */,
+				4F9226241FA2552A009C1434 /* Softsign.cpp in Sources */,
+				4F9226181FA254C8009C1434 /* Linear Unit.cpp in Sources */,
+				4F92261B1FA254D8009C1434 /* Binary Step.cpp in Sources */,
+				4F9226111FA25491009C1434 /* Bias.cpp in Sources */,
+				4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */,
+				4F92261E1FA254EA009C1434 /* Logistic.cpp in Sources */,
+				4F92262E1FA25785009C1434 /* Graph.cpp in Sources */,
+				4F92260E1FA25481009C1434 /* Pooling.cpp in Sources */,
+				4F92262A1FA25746009C1434 /* Operation.cpp in Sources */,
 				4F9225EA1FA24934009C1434 /* main.cpp in Sources */,
+				4F9226081FA25462009C1434 /* BatchNormalisation.cpp in Sources */,
+				4F9226271FA25533009C1434 /* Softplus.cpp in Sources */,
+				4F9226051FA25371009C1434 /* Convolution.cpp in Sources */,
+				4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */,
+				4F9225FE1FA2531C009C1434 /* TrainingData.cpp in Sources */,
+				4F9226371FA35603009C1434 /* Layer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +442,7 @@
 				4F9225EF1FA24934009C1434 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
