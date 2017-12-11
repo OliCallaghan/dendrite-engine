@@ -19,18 +19,20 @@
 struct Layer {
     Layers::Layer_T layer_t;
     std::vector<short> input; // Input index in layers array
+    std::vector<short> dependents; // Input index in layers array
     LearnableParameters* params;
     void* hyperparameters;
     
     // Forward and backward propagation methods
     std::function<void(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*)> ForwardFunc;
-    std::function<void(Tensor**, Tensor*, Tensor*, void*, dispatch_queue_t*)> BackpropDeltasFunc;
-    std::function<void(Tensor**, Tensor*, Tensor*, void*, dispatch_queue_t*)> CalcParamDeltasFunc;
+    std::function<void(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*)> BackpropDeltasFunc;
+    std::function<void(Tensor*, Tensor*, LearnableParameters*, void*, float, dispatch_queue_t*)> CalcParamDeltasFunc;
     
     Tensor* output;
+    Tensor* delta;
     
     // Initialiser
-    Layer(Layers::Layer_T layer_t, std::vector<short> inputs, void* hyperparameters);
+    Layer(Layers::Layer_T layer_t, std::vector<short> inputs, std::vector<short> dependents, void* hyperparameters);
 };
 
 #endif /* Layer_hpp */

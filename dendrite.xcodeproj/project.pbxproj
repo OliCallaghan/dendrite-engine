@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F44FEE61FCC127500FEFAD3 /* L2.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4F44FEE51FCC127500FEFAD3 /* L2.cl */; };
+		4F44FEED1FCC1ABD00FEFAD3 /* LossFn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F44FEEB1FCC1ABD00FEFAD3 /* LossFn.cpp */; };
+		4F7FBD201FC777B600728E39 /* L2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FBD1E1FC777B600728E39 /* L2.cpp */; };
+		4F7FBD231FC8862300728E39 /* Pooling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FBD211FC8862300728E39 /* Pooling.cpp */; };
 		4F9225EA1FA24934009C1434 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225E91FA24934009C1434 /* main.cpp */; };
 		4F9225F51FA24D7E009C1434 /* Tensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F31FA24D7E009C1434 /* Tensor.cpp */; };
 		4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F81FA2520B009C1434 /* Network.cpp */; };
@@ -15,7 +19,6 @@
 		4F9226051FA25371009C1434 /* Convolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226031FA25371009C1434 /* Convolution.cpp */; };
 		4F9226081FA25462009C1434 /* BatchNormalisation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226061FA25462009C1434 /* BatchNormalisation.cpp */; };
 		4F92260B1FA2546F009C1434 /* Dropout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226091FA2546F009C1434 /* Dropout.cpp */; };
-		4F92260E1FA25481009C1434 /* Pooling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92260C1FA25481009C1434 /* Pooling.cpp */; };
 		4F9226111FA25491009C1434 /* Bias.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92260F1FA25491009C1434 /* Bias.cpp */; };
 		4F9226181FA254C8009C1434 /* Linear Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226161FA254C8009C1434 /* Linear Unit.cpp */; };
 		4F92261B1FA254D8009C1434 /* Binary Step.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226191FA254D8009C1434 /* Binary Step.cpp */; };
@@ -29,6 +32,7 @@
 		4FA30E1C1FB0655A0035373F /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA30E1B1FB0655A0035373F /* OpenCL.framework */; };
 		4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */; };
 		4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FC992151FA6648900266EE0 /* LearnableParameters.cpp */; };
+		4FEE4DD91FB9C0E7005D7F5A /* MatrixMultiply.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4FEE4DD81FB9C0E7005D7F5A /* MatrixMultiply.cl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +48,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F44FEE51FCC127500FEFAD3 /* L2.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = L2.cl; sourceTree = "<group>"; };
+		4F44FEE91FCC1A4100FEFAD3 /* Loss.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Loss.hpp; sourceTree = "<group>"; };
+		4F44FEEB1FCC1ABD00FEFAD3 /* LossFn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LossFn.cpp; sourceTree = "<group>"; };
+		4F44FEEC1FCC1ABD00FEFAD3 /* LossFn.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LossFn.hpp; sourceTree = "<group>"; };
+		4F7FBD1E1FC777B600728E39 /* L2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = L2.cpp; sourceTree = "<group>"; };
+		4F7FBD1F1FC777B600728E39 /* L2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = L2.hpp; sourceTree = "<group>"; };
+		4F7FBD211FC8862300728E39 /* Pooling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pooling.cpp; sourceTree = "<group>"; };
+		4F7FBD221FC8862300728E39 /* Pooling.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pooling.hpp; sourceTree = "<group>"; };
 		4F9225E61FA24934009C1434 /* dendrite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dendrite; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9225E91FA24934009C1434 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4F9225F31FA24D7E009C1434 /* Tensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tensor.cpp; sourceTree = "<group>"; };
@@ -60,8 +72,6 @@
 		4F9226071FA25462009C1434 /* BatchNormalisation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BatchNormalisation.hpp; sourceTree = "<group>"; };
 		4F9226091FA2546F009C1434 /* Dropout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dropout.cpp; sourceTree = "<group>"; };
 		4F92260A1FA2546F009C1434 /* Dropout.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dropout.hpp; sourceTree = "<group>"; };
-		4F92260C1FA25481009C1434 /* Pooling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Pooling.cpp; path = ../Pooling.cpp; sourceTree = "<group>"; };
-		4F92260D1FA25481009C1434 /* Pooling.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Pooling.hpp; path = ../Pooling.hpp; sourceTree = "<group>"; };
 		4F92260F1FA25491009C1434 /* Bias.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bias.cpp; sourceTree = "<group>"; };
 		4F9226101FA25491009C1434 /* Bias.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bias.hpp; sourceTree = "<group>"; };
 		4F9226161FA254C8009C1434 /* Linear Unit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "Linear Unit.cpp"; sourceTree = "<group>"; };
@@ -87,6 +97,7 @@
 		4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = ElementWiseAdd.cl; sourceTree = "<group>"; };
 		4FC992151FA6648900266EE0 /* LearnableParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LearnableParameters.cpp; sourceTree = "<group>"; };
 		4FC992161FA6648900266EE0 /* LearnableParameters.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LearnableParameters.hpp; sourceTree = "<group>"; };
+		4FEE4DD81FB9C0E7005D7F5A /* MatrixMultiply.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = MatrixMultiply.cl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +112,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F7FBD1D1FC7778000728E39 /* Loss */ = {
+			isa = PBXGroup;
+			children = (
+				4F7FBD1E1FC777B600728E39 /* L2.cpp */,
+				4F7FBD1F1FC777B600728E39 /* L2.hpp */,
+			);
+			name = Loss;
+			sourceTree = "<group>";
+		};
 		4F9225DD1FA24934009C1434 = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +166,7 @@
 				4F92262B1FA25773009C1434 /* Graph */,
 				4F9226151FA254A9009C1434 /* Activation Functions */,
 				4F9225FF1FA25323009C1434 /* Layers */,
+				4F7FBD1D1FC7778000728E39 /* Loss */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -174,8 +195,8 @@
 				4F9226011FA25360009C1434 /* FullyConnected.hpp */,
 				4F9226281FA25746009C1434 /* Operation.cpp */,
 				4F9226291FA25746009C1434 /* Operation.hpp */,
-				4F92260C1FA25481009C1434 /* Pooling.cpp */,
-				4F92260D1FA25481009C1434 /* Pooling.hpp */,
+				4F7FBD211FC8862300728E39 /* Pooling.cpp */,
+				4F7FBD221FC8862300728E39 /* Pooling.hpp */,
 				4FC992141FA656B200266EE0 /* Algorithms */,
 				4FC992181FA6648D00266EE0 /* Properties */,
 			);
@@ -209,6 +230,9 @@
 				4F9226351FA35603009C1434 /* Layer.cpp */,
 				4F9226361FA35603009C1434 /* Layer.hpp */,
 				4F9226331FA25FFA009C1434 /* Layers.hpp */,
+				4F44FEEB1FCC1ABD00FEFAD3 /* LossFn.cpp */,
+				4F44FEEC1FCC1ABD00FEFAD3 /* LossFn.hpp */,
+				4F44FEE91FCC1A4100FEFAD3 /* Loss.hpp */,
 			);
 			name = Graph;
 			sourceTree = "<group>";
@@ -225,6 +249,8 @@
 			isa = PBXGroup;
 			children = (
 				4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */,
+				4FEE4DD81FB9C0E7005D7F5A /* MatrixMultiply.cl */,
+				4F44FEE51FCC127500FEFAD3 /* L2.cl */,
 			);
 			name = Algorithms;
 			sourceTree = "<group>";
@@ -295,23 +321,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F44FEE61FCC127500FEFAD3 /* L2.cl in Sources */,
 				4F9225F51FA24D7E009C1434 /* Tensor.cpp in Sources */,
 				4F9226211FA25503009C1434 /* Tangent.cpp in Sources */,
 				4F92260B1FA2546F009C1434 /* Dropout.cpp in Sources */,
 				4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */,
+				4F7FBD231FC8862300728E39 /* Pooling.cpp in Sources */,
 				4F9226021FA25360009C1434 /* FullyConnected.cpp in Sources */,
 				4F9226241FA2552A009C1434 /* Softsign.cpp in Sources */,
 				4F9226181FA254C8009C1434 /* Linear Unit.cpp in Sources */,
+				4FEE4DD91FB9C0E7005D7F5A /* MatrixMultiply.cl in Sources */,
 				4F92261B1FA254D8009C1434 /* Binary Step.cpp in Sources */,
 				4F9226111FA25491009C1434 /* Bias.cpp in Sources */,
 				4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */,
 				4F92261E1FA254EA009C1434 /* Logistic.cpp in Sources */,
 				4F92262E1FA25785009C1434 /* Graph.cpp in Sources */,
-				4F92260E1FA25481009C1434 /* Pooling.cpp in Sources */,
 				4F92262A1FA25746009C1434 /* Operation.cpp in Sources */,
 				4F9225EA1FA24934009C1434 /* main.cpp in Sources */,
+				4F7FBD201FC777B600728E39 /* L2.cpp in Sources */,
 				4F9226081FA25462009C1434 /* BatchNormalisation.cpp in Sources */,
 				4F9226271FA25533009C1434 /* Softplus.cpp in Sources */,
+				4F44FEED1FCC1ABD00FEFAD3 /* LossFn.cpp in Sources */,
 				4F9226051FA25371009C1434 /* Convolution.cpp in Sources */,
 				4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */,
 				4F9225FE1FA2531C009C1434 /* TrainingData.cpp in Sources */,

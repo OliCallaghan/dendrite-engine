@@ -11,11 +11,13 @@
 
 #include <stdio.h>
 #include "Layer.hpp"
+#include "LossFn.hpp"
 #include <vector>
 
 class Graph {
     std::vector<Layer> layers;
-    int layer_n;
+    size_t layer_n;
+    Loss::LossFn* loss_fn;
 public:
     // Load graph structure **note does not load / initialise layers
     bool Load();
@@ -26,7 +28,7 @@ public:
     bool LoadLayers();
     
     void Evaluate(Tensor* input, Tensor* output, dispatch_queue_t* queue);
-    void Learn();
+    float Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, float eta);
 };
 
 #endif /* Graph_hpp */

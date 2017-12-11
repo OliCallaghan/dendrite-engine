@@ -37,26 +37,39 @@ int Dims::SizePerEx() {
     return this->dims[0] * this->dims[1] * this->dims[2];
 }
 
-Tensor::Tensor(Dims d) {
-    // 4-D Max Dimensions
-    this->dims = &d;
-    
+std::string Dims::GetSizeStr() {
+    std::string str;
+    for (int dim = 0; dim < 4; dim++) {
+        str.append(std::to_string(this->dims[dim]));
+        str.append(" ");
+    }
+    return str;
+}
+
+Tensor::Tensor(Dims d) : dims(d) {
     // size = product of all 4 dimensions
-    size_t size = this->dims->Size() * sizeof(float);
+    size_t size = this->dims.Size() * sizeof(float);
     
     this->data = (float*)malloc(size);
 }
 
-Tensor::Tensor(std::vector<int> d) {
-    // 4-D Max Dimensions
-    this->dims = new Dims(d);
-    
+Tensor::Tensor(std::vector<int> d) : dims(d) {
     // size = product of all 4 dimensions
-    size_t size = this->dims->Size() * sizeof(float);
+    size_t size = this->dims.Size() * sizeof(float);
     
     this->data = (float*)malloc(size);
 }
 
+std::string Tensor::GetDataStr() {
+    std::string str;
+    str.append("[ ");
+    for (int pos = 0; pos < this->dims.Size(); pos++) {
+        str.append(std::to_string(this->data[pos]));
+        str.append(" ");
+    }
+    str.append("]");
+    return str;
+}
 
 void Tensor::LoadData(float* data) {
     this->data = data;

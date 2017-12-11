@@ -18,6 +18,16 @@ namespace Layers {
         void Forward(Tensor** input, Tensor* output, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue);
         void BackpropDeltas(Tensor** deltas, Tensor* backpropagated_deltas, Tensor* learnable_params, void* params, dispatch_queue_t* queue);
         void CalcParamDeltas(Tensor** deltas, Tensor* kernel_deltas, Tensor* input, void* params, dispatch_queue_t* queue);
+        
+        struct Hyperparameters {
+            float mean;
+            float stddev;
+            Hyperparameters(float, float);
+            Hyperparameters();
+        };
+
+        
+        LearnableParameters* InitialiseLearnableParameters(Layers::Bias::Hyperparameters p, Dims dims);
         Dims CalcOutputSize(Dims input);
     }
 }

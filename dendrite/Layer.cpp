@@ -8,9 +8,10 @@
 
 #include "Layer.hpp"
 
-Layer::Layer(Layers::Layer_T t, std::vector<short> i, void* hyperparameters) {
+Layer::Layer(Layers::Layer_T t, std::vector<short> i, std::vector<short> d, void* hyperparameters) {
     this->layer_t = t;
     this->input = i;
+    this->dependents = d;
     this->hyperparameters = hyperparameters;
     
     // Set methods for layer
@@ -20,6 +21,8 @@ Layer::Layer(Layers::Layer_T t, std::vector<short> i, void* hyperparameters) {
             break;
         case Layers::Layer_T::FullyConnected_T:
             this->ForwardFunc = Layers::FullyConnected::Forward;
+            this->BackpropDeltasFunc = Layers::FullyConnected::Backprop;
+            this->CalcParamDeltasFunc = Layers::FullyConnected::UpdateWeights;
             break;
         case Layers::Layer_T::Input_T:
             break;

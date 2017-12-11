@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <vector>
+#include <string>
 
 // Dimensions:
 //  Stored as (x,y,z,batch)
@@ -19,16 +20,18 @@ struct Dims {
     Dims(std::vector<int> dims);
     int Size();
     int SizePerEx();
+    std::string GetSizeStr();
 };
 
 class Tensor {
 public:
-    Dims* dims;
+    Dims dims;
     float* data;
     
     Tensor(Dims d);
     Tensor(std::vector<int> d);
     void LoadData(float* data);
+    std::string GetDataStr();
 };
 
 #endif /* Tensor_hpp */

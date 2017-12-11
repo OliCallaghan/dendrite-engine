@@ -17,13 +17,16 @@
 class Network {
     Graph* g;
     Tensor* input;
+    Tensor* output;
     Tensor* prediction;
     dispatch_queue_t queue;
     
 public:
+    float LearningRate = 0.01; // Learning rate
+    
     float Learn();
     void Evaluate();
-    Network(Tensor* input, Tensor* prediction); // Initialise empty network
+    Network(Tensor* input, Tensor* prediction, Tensor* output); // Initialise empty network
     bool Validate();
 };
 

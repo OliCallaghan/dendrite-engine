@@ -17,6 +17,8 @@
 namespace Layers {
     namespace FullyConnected {
         void Forward(Tensor** input, Tensor* output, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue);
+        void Backprop(Tensor** err, Tensor* backprop_err, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue);
+        void UpdateWeights(Tensor* deriv, Tensor* input, LearnableParameters* learnable_params, void* params, float eta, dispatch_queue_t* queue);
         struct Hyperparameters {
             int Nodes;
             // Weight Params
@@ -26,8 +28,8 @@ namespace Layers {
             Hyperparameters(int);
         };
         
-        Dims CalcOutputSize(Dims* input, Hyperparameters params);
-        LearnableParameters* InitialiseLearnableParameters(Hyperparameters params);
+        Dims CalcOutputSize(Dims input, Hyperparameters params);
+        LearnableParameters* InitialiseLearnableParameters(Hyperparameters params, Dims dims);
     }
 }
 

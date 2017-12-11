@@ -9,12 +9,13 @@
 #include <iostream>
 #include "Network.hpp"
 
-Network::Network(Tensor* i, Tensor* p) {
+Network::Network(Tensor* i, Tensor* p, Tensor* o) {
     this->g = new Graph();
     this->g->LoadFixed();
     
     this->input = i;
     this->prediction = p;
+    this->output = o;
     
     this->g->InitialiseLayers(this->input);
     
@@ -28,5 +29,9 @@ Network::Network(Tensor* i, Tensor* p) {
 }
 
 void Network::Evaluate() {
-    this->g->Evaluate(this->input, this->prediction, &(this->queue));
+    this->g->Evaluate(this->input, this->output, &(this->queue));
+}
+
+float Network::Learn() {
+    return this->g->Learn(this->input, this->prediction, &(this->queue), this->LearningRate);
 }
