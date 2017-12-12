@@ -90,14 +90,14 @@ void Layers::FullyConnected::UpdateWeights(Tensor* deriv, Tensor* input, Learnab
             2,
             {0,0,0},
             {l_x * batch_size,l_y * batch_size,0},
-            {l_x,l_x,0}
+            {l_x,l_y,0}
         };
         
         cl_ndrange uw_range = {
             2,
             {0,0,0},
             {l_x * batch_size,l_y * batch_size,0},
-            {l_x,l_x,0}
+            {l_x,l_y,0}
         };
         
         CalculateWeightDerivatives_kernel(&cwd_range, (cl_float*)deriv_gpu_ptr, (cl_float*)input_gpu_ptr, (cl_float*)wd_gpu_ptr);

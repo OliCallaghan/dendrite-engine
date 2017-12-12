@@ -55,13 +55,13 @@ bool Graph::LoadFixed() {
     this->layers.push_back(*new Layer(Layers::Layer_T::Input_T, i0, d0, NULL));
     
     std::vector<short> i1 = {0};
-    std::vector<short> d1 = {1};
+    std::vector<short> d1 = {2};
     Layers::FullyConnected::Hyperparameters* h_p1 = new Layers::FullyConnected::Hyperparameters(3);
     this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i1, d1, (void*)(h_p1)));
     
     std::vector<short> i2 = {1};
     std::vector<short> d2 = {2};
-    Layers::FullyConnected::Hyperparameters* h_p2 = new Layers::FullyConnected::Hyperparameters(3);
+    Layers::FullyConnected::Hyperparameters* h_p2 = new Layers::FullyConnected::Hyperparameters(1);
     this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i2, d2, (void*)(h_p2)));
     
     //std::vector<short> i3 = {2};
@@ -119,7 +119,10 @@ float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, f
             inputs[inp] = this->layers[this->layers[pos].input[inp]].output;
         }
         this->layers[pos].ForwardFunc(inputs, this->layers[pos].output, this->layers[pos].params, this->layers[pos].hyperparameters, queue);
+        
+        // NEED TO STOP HAVING TO CALL THIS METHOD
         std::string str = this->layers[pos].output->GetDataStr();
+        
         //std::cout << "INTERMEDIATE: " << this->layers[pos].output->GetDataStr() << "\n";
     }
     
