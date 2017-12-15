@@ -28,6 +28,9 @@ public:
     void Evaluate();
     Network(Tensor* input, Tensor* prediction, Tensor* output); // Initialise empty network
     bool Validate();
+    
+    bool ImportNetwork();
+    bool ImportLayerParameters();
 };
 
 #endif /* Network_hpp */

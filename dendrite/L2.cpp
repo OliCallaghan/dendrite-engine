@@ -15,7 +15,7 @@ float Loss::L2::LossVal(Tensor* output, Tensor* prediction, dispatch_queue_t* qu
     void* p_gpu_ptr = gcl_malloc(sizeof(cl_float) * prediction->dims.Size(), prediction->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
     void* o_gpu_ptr = gcl_malloc(sizeof(cl_float), NULL, CL_MEM_WRITE_ONLY);
     
-    float* rtrn;
+    float* rtrn = (float*)malloc(sizeof(float));
     
     // Execute bias addition
     dispatch_sync(*queue, ^{

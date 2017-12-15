@@ -29,7 +29,7 @@ Dims::Dims(std::vector<int> d) {
     }
 }
 
-int Dims::Size() {
+int Dims::Size() const {
     return this->dims[0] * this->dims[1] * this->dims[2] * this->dims[3];
 }
 
@@ -42,6 +42,15 @@ std::string Dims::GetSizeStr() {
     for (int dim = 0; dim < 4; dim++) {
         str.append(std::to_string(this->dims[dim]));
         str.append(" ");
+    }
+    return str;
+}
+
+std::string Dims::GetSizeStr(char delimiter) {
+    std::string str;
+    for (int dim = 0; dim < 4; dim++) {
+        str.append(std::to_string(this->dims[dim]));
+        str.append(&delimiter);
     }
     return str;
 }
@@ -60,7 +69,7 @@ Tensor::Tensor(std::vector<int> d) : dims(d) {
     this->data = (float*)malloc(size);
 }
 
-std::string Tensor::GetDataStr() {
+std::string Tensor::GetDataStr() const {
     std::string str;
     str.append("[ ");
     for (int pos = 0; pos < this->dims.Size(); pos++) {

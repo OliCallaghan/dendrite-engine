@@ -24,9 +24,12 @@ struct Layer {
     void* hyperparameters;
     
     // Forward and backward propagation methods
-    std::function<void(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*)> ForwardFunc;
-    std::function<void(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*)> BackpropDeltasFunc;
-    std::function<void(Tensor*, Tensor*, LearnableParameters*, void*, float, dispatch_queue_t*)> CalcParamDeltasFunc;
+    //std::function<void(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*)> ForwardFunc;
+    void (*ForwardFunc)(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*);
+    //std::function<void(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*)> BackpropDeltasFunc;
+    void (*BackpropDeltasFunc)(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*);
+    //std::function<void(Tensor*, Tensor*, LearnableParameters*, void*, float, dispatch_queue_t*)> CalcParamDeltasFunc;
+    void (*CalcParamDeltasFunc)(Tensor*, Tensor*, LearnableParameters*, void*, float, dispatch_queue_t*);
     
     Tensor* output;
     Tensor* delta;

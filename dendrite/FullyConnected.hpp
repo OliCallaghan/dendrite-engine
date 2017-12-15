@@ -10,6 +10,7 @@
 #define FullyConnected_hpp
 
 #include <stdio.h>
+#include "Layer.hpp"
 #include "Tensor.hpp"
 #include "LearnableParameters.hpp"
 #include <OpenCL/opencl.h>
@@ -30,6 +31,8 @@ namespace Layers {
         
         Dims CalcOutputSize(Dims input, Hyperparameters params);
         LearnableParameters* InitialiseLearnableParameters(Hyperparameters params, Dims dims);
+        
+        // Hyperparameters InitialiseLayer();
     }
 }
 

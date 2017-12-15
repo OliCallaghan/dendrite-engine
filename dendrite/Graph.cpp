@@ -44,7 +44,13 @@ LearnableParameters* InitialiseLearnableParameters(Layers::Layer_T layer_t, void
 
 bool Graph::Load() {
     std::ifstream model_struct;
-    model_struct.open("model.struct");
+    model_struct.open("/Users/Oli/Desktop/Network/model.struct");
+    std::string line;
+    while (getline(model_struct, line)) {
+        //std::cout << line << "\n";
+        GraphLoader::ParseLine(line);
+    }
+    
     // Implement loading
     return true;
 }
@@ -56,13 +62,28 @@ bool Graph::LoadFixed() {
     
     std::vector<short> i1 = {0};
     std::vector<short> d1 = {2};
-    Layers::FullyConnected::Hyperparameters* h_p1 = new Layers::FullyConnected::Hyperparameters(3);
+    Layers::FullyConnected::Hyperparameters* h_p1 = new Layers::FullyConnected::Hyperparameters(512);
     this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i1, d1, (void*)(h_p1)));
     
     std::vector<short> i2 = {1};
-    std::vector<short> d2 = {2};
-    Layers::FullyConnected::Hyperparameters* h_p2 = new Layers::FullyConnected::Hyperparameters(1);
+    std::vector<short> d2 = {3};
+    Layers::FullyConnected::Hyperparameters* h_p2 = new Layers::FullyConnected::Hyperparameters(512);
     this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i2, d2, (void*)(h_p2)));
+    
+    std::vector<short> i3 = {2};
+    std::vector<short> d3 = {4};
+    Layers::FullyConnected::Hyperparameters* h_p3 = new Layers::FullyConnected::Hyperparameters(512);
+    this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i3, d3, (void*)(h_p3)));
+    
+    std::vector<short> i4 = {3};
+    std::vector<short> d4 = {5};
+    Layers::FullyConnected::Hyperparameters* h_p4 = new Layers::FullyConnected::Hyperparameters(512);
+    this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i4, d4, (void*)(h_p4)));
+    
+    std::vector<short> i5 = {4};
+    std::vector<short> d5 = {5};
+    Layers::FullyConnected::Hyperparameters* h_p5 = new Layers::FullyConnected::Hyperparameters(3);
+    this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i5, d5, (void*)(h_p5)));
     
     //std::vector<short> i3 = {2};
     //std::vector<short> d3 = {NULL};
@@ -96,7 +117,6 @@ bool Graph::InitialiseLayers(Tensor* input) {
 }
 
 void Graph::Evaluate(Tensor* input, Tensor* output, dispatch_queue_t* queue) {
-    std::cout << "INPUT: " << input->GetDataStr() << "\n";
     for (size_t pos = 1; pos < this->layer_n; pos++) {
         // Iterate over every layer
         Tensor* inputs[this->layers[pos].input.size()];
@@ -104,14 +124,12 @@ void Graph::Evaluate(Tensor* input, Tensor* output, dispatch_queue_t* queue) {
             inputs[inp] = this->layers[this->layers[pos].input[inp]].output;
         }
         this->layers[pos].ForwardFunc(inputs, this->layers[pos].output, this->layers[pos].params, this->layers[pos].hyperparameters, queue);
-        std::cout << "INTERMEDIATE: " << this->layers[pos].output->GetDataStr() << "\n";
     }
     
     output->data = this->layers[this->layer_n - 1].output->data;
 }
 
 float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, float eta) {
-    //std::cout << "INPUT: " << input->GetDataStr() << "\n";
     for (size_t pos = 1; pos < this->layer_n; pos++) {
         // Iterate over every layer
         Tensor* inputs[this->layers[pos].input.size()];
@@ -119,14 +137,7 @@ float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, f
             inputs[inp] = this->layers[this->layers[pos].input[inp]].output;
         }
         this->layers[pos].ForwardFunc(inputs, this->layers[pos].output, this->layers[pos].params, this->layers[pos].hyperparameters, queue);
-        
-        // NEED TO STOP HAVING TO CALL THIS METHOD
-        std::string str = this->layers[pos].output->GetDataStr();
-        
-        //std::cout << "INTERMEDIATE: " << this->layers[pos].output->GetDataStr() << "\n";
     }
-    
-    float loss = this->loss_fn->Loss_Val(this->layers[this->layer_n - 1].output, prediction, queue);
     
     // Calculate loss for final layer
     this->loss_fn->Loss(this->layers[this->layer_n - 1].output, prediction, this->layers[this->layer_n - 1].delta, queue);
@@ -139,10 +150,14 @@ float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, f
             dependents[dpt] = this->layers[this->layers[pos].dependents[dpt]].delta;
         }
         
+        // Backpropagate the error
         this->layers[pos].BackpropDeltasFunc(dependents, this->layers[pos - 1].delta, this->layers[pos].params, this->layers[pos].hyperparameters, queue);
         
+        // Update weights
         this->layers[pos].CalcParamDeltasFunc(this->layers[pos].delta, this->layers[this->layers[pos].input[0]].output, this->layers[pos].params, this->layers[pos].hyperparameters, eta, queue);
     }
+    
+    float loss = this->loss_fn->Loss_Val(this->layers[this->layer_n - 1].output, prediction, queue);
     
     return loss;
 }

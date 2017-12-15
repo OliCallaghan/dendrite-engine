@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "Layer.hpp"
 #include "LossFn.hpp"
+#include "LayerLoader.hpp"
 #include <vector>
 
 class Graph {

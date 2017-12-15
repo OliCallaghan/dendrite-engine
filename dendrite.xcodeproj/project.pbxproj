@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1D6B5A1FE05C2000D4844B /* LayerLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F1D6B581FE05C2000D4844B /* LayerLoader.cpp */; };
+		4F1D6B5E1FE1D44D00D4844B /* LayerSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F1D6B5C1FE1D44D00D4844B /* LayerSaver.cpp */; };
 		4F44FEE61FCC127500FEFAD3 /* L2.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4F44FEE51FCC127500FEFAD3 /* L2.cl */; };
 		4F44FEED1FCC1ABD00FEFAD3 /* LossFn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F44FEEB1FCC1ABD00FEFAD3 /* LossFn.cpp */; };
 		4F7FBD201FC777B600728E39 /* L2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FBD1E1FC777B600728E39 /* L2.cpp */; };
@@ -48,6 +50,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F1D6B581FE05C2000D4844B /* LayerLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerLoader.cpp; sourceTree = "<group>"; };
+		4F1D6B591FE05C2000D4844B /* LayerLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LayerLoader.hpp; sourceTree = "<group>"; };
+		4F1D6B5C1FE1D44D00D4844B /* LayerSaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerSaver.cpp; sourceTree = "<group>"; };
+		4F1D6B5D1FE1D44D00D4844B /* LayerSaver.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LayerSaver.hpp; sourceTree = "<group>"; };
 		4F44FEE51FCC127500FEFAD3 /* L2.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = L2.cl; sourceTree = "<group>"; };
 		4F44FEE91FCC1A4100FEFAD3 /* Loss.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Loss.hpp; sourceTree = "<group>"; };
 		4F44FEEB1FCC1ABD00FEFAD3 /* LossFn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LossFn.cpp; sourceTree = "<group>"; };
@@ -112,6 +118,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F1D6B5B1FE05C2500D4844B /* Graph Helper Methods */ = {
+			isa = PBXGroup;
+			children = (
+				4F1D6B581FE05C2000D4844B /* LayerLoader.cpp */,
+				4F1D6B591FE05C2000D4844B /* LayerLoader.hpp */,
+				4F1D6B5C1FE1D44D00D4844B /* LayerSaver.cpp */,
+				4F1D6B5D1FE1D44D00D4844B /* LayerSaver.hpp */,
+			);
+			name = "Graph Helper Methods";
+			sourceTree = "<group>";
+		};
 		4F7FBD1D1FC7778000728E39 /* Loss */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +244,7 @@
 			children = (
 				4F92262C1FA25785009C1434 /* Graph.cpp */,
 				4F92262D1FA25785009C1434 /* Graph.hpp */,
+				4F1D6B5B1FE05C2500D4844B /* Graph Helper Methods */,
 				4F9226351FA35603009C1434 /* Layer.cpp */,
 				4F9226361FA35603009C1434 /* Layer.hpp */,
 				4F9226331FA25FFA009C1434 /* Layers.hpp */,
@@ -331,6 +349,7 @@
 				4F9226241FA2552A009C1434 /* Softsign.cpp in Sources */,
 				4F9226181FA254C8009C1434 /* Linear Unit.cpp in Sources */,
 				4FEE4DD91FB9C0E7005D7F5A /* MatrixMultiply.cl in Sources */,
+				4F1D6B5A1FE05C2000D4844B /* LayerLoader.cpp in Sources */,
 				4F92261B1FA254D8009C1434 /* Binary Step.cpp in Sources */,
 				4F9226111FA25491009C1434 /* Bias.cpp in Sources */,
 				4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */,
@@ -345,6 +364,7 @@
 				4F9226051FA25371009C1434 /* Convolution.cpp in Sources */,
 				4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */,
 				4F9225FE1FA2531C009C1434 /* TrainingData.cpp in Sources */,
+				4F1D6B5E1FE1D44D00D4844B /* LayerSaver.cpp in Sources */,
 				4F9226371FA35603009C1434 /* Layer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

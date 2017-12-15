@@ -11,27 +11,31 @@
 #include "Network.hpp"
 
 int main(int argc, const char * argv[]) {
-    Tensor input({2,1,1,1});
-    Tensor prediction({1,1,1,1});
-    Tensor output({1,1,1,1});
+    Tensor input({4,1,1,1});
+    Tensor prediction({3,1,1,1});
+    Tensor output({3,1,1,1});
     
     // Set Input Data
-    input.data[0] = 1;
-    input.data[1] = 0;
+    input.data[0] = 0.8;
+    input.data[1] = -0.4;
+    input.data[2] = 1;
+    input.data[3] = 0.1;
     
     // Set Prediction Data
     prediction.data[0] = 1;
+    prediction.data[1] = 0;
+    prediction.data[2] = 1;
     
     Network n(&input, &prediction, &output);
-    n.LearningRate = 0.01;
+    n.LearningRate = 1e-11;
     
-    float loss;
-    for (int loop = 0; loop < 1000; loop++) {
+    /*float loss;
+    for (int loop = 0; loop < 1e10; loop++) {
         loss = n.Learn();
         std::cout << "LOSS: " << loss << "\n";
-    }
-    n.Evaluate();
-    std::cout << "OUTPUT: " << output.GetDataStr() << "\n";
+    }*/
+    
+    n.ImportNetwork();
     
     return 0;
 }

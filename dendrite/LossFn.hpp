@@ -17,8 +17,10 @@
 namespace Loss {
     struct LossFn {
         Loss::Loss_T loss_t;
-        std::function<float(Tensor*, Tensor*, dispatch_queue_t*)> Loss_Val;
-        std::function<void(Tensor*, Tensor*, Tensor*, dispatch_queue_t*)> Loss;
+        //std::function<float(Tensor*, Tensor*, dispatch_queue_t*)> Loss_Val;
+        float (*Loss_Val)(Tensor*, Tensor*, dispatch_queue_t*);
+        //std::function<void(Tensor*, Tensor*, Tensor*, dispatch_queue_t*)> Loss;
+        void (*Loss)(Tensor*, Tensor*, Tensor*, dispatch_queue_t*);
         LossFn(Loss::Loss_T);
     };
 }

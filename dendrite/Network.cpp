@@ -35,3 +35,7 @@ void Network::Evaluate() {
 float Network::Learn() {
     return this->g->Learn(this->input, this->prediction, &(this->queue), this->LearningRate);
 }
+
+bool Network::ImportNetwork() {
+    return this->g->Load();
+}
