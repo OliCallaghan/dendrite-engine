@@ -19,17 +19,27 @@ class Graph {
     std::vector<Layer> layers;
     size_t layer_n;
     Loss::LossFn* loss_fn;
+    Loss::Loss_T loss_t;
 public:
     // Load graph structure **note does not load / initialise layers
-    bool Load();
+    bool Load(std::string, Tensor*);
     bool LoadFixed(); // Until file structure is finalised
+    
+    bool Save(std::string, Dims, Dims);
+    
+    bool InsertLayer(std::string loc, Layers::Layer_T, short, std::vector<short>, std::vector<short>);
+    bool InsertInput(Tensor*);
+    
+    void AddLoss(Loss::Loss_T);
     
     // Load or initialise layers
     bool InitialiseLayers(Tensor* input);
-    bool LoadLayers();
+    bool LoadLayers(std::string);
     
     void Evaluate(Tensor* input, Tensor* output, dispatch_queue_t* queue);
     float Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, float eta);
+    
+    Dims GetOutputSize();
 };
 
 #endif /* Graph_hpp */

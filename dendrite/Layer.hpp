@@ -10,7 +10,10 @@
 #define Layer_hpp
 
 #include <stdio.h>
+#include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
 #include <functional>
 #include <OpenCL/opencl.h>
 #include "Layers.hpp"
@@ -21,15 +24,19 @@ struct Layer {
     std::vector<short> input; // Input index in layers array
     std::vector<short> dependents; // Input index in layers array
     LearnableParameters* params;
+    bool has_params;
     void* hyperparameters;
     
+    size_t GetSizeOfHyperparameters();
+    
     // Forward and backward propagation methods
-    //std::function<void(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*)> ForwardFunc;
     void (*ForwardFunc)(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*);
-    //std::function<void(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*)> BackpropDeltasFunc;
-    void (*BackpropDeltasFunc)(Tensor**, Tensor*, LearnableParameters*, void*, dispatch_queue_t*);
-    //std::function<void(Tensor*, Tensor*, LearnableParameters*, void*, float, dispatch_queue_t*)> CalcParamDeltasFunc;
+    void (*BackpropDeltasFunc)(Tensor**, Tensor*, Tensor*, LearnableParameters*, void*, dispatch_queue_t*);
     void (*CalcParamDeltasFunc)(Tensor*, Tensor*, LearnableParameters*, void*, float, dispatch_queue_t*);
+    
+    void LoadLearnableParameters(std::string, short);
+    bool SaveLearnableParameters(std::string, short);
+    bool SaveHyperparameters(std::string, short);
     
     Tensor* output;
     Tensor* delta;

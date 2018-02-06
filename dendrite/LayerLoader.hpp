@@ -13,11 +13,20 @@
 #include <iostream>
 #include <regex>
 #include <string>
+#include <cstring>
 #include <sstream>
 #include "Layer.hpp"
+#include "Loss.hpp"
 
 namespace GraphLoader {
-    Layer* ParseLine(std::string line); // Outputs layer type
+    struct LayerDetails {
+        Layers::Layer_T type;
+        short id;
+        std::vector<short> inputs;
+        std::vector<short> dependents;
+    };
+    bool ParseLayer(std::string line, LayerDetails*); // Outputs layer type
+    Loss::Loss_T ParseLoss(std::string line);
 }
 
 #endif /* LayerLoader_hpp */

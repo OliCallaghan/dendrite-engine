@@ -46,12 +46,13 @@ std::string Dims::GetSizeStr() {
     return str;
 }
 
-std::string Dims::GetSizeStr(char delimiter) {
+std::string Dims::GetSizeStr(std::string delimiter) {
     std::string str;
     for (int dim = 0; dim < 4; dim++) {
         str.append(std::to_string(this->dims[dim]));
-        str.append(&delimiter);
+        str.append(delimiter);
     }
+    str.pop_back();
     return str;
 }
 
@@ -77,6 +78,21 @@ std::string Tensor::GetDataStr() const {
         str.append(" ");
     }
     str.append("]");
+    return str;
+}
+
+std::string Tensor::GetMNISTDataStr() {
+    std::string str;
+    for (int pos = 0; pos < this->dims.Size(); pos++) {
+        if (this->data[pos] < 0) {
+            str.append(" ");
+        } else {
+            str.append("X");
+        }
+        if (pos % 28 == 0) {
+            str.append("\n");
+        }
+    }
     return str;
 }
 

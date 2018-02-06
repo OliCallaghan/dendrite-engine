@@ -10,27 +10,35 @@
 #define Network_hpp
 
 #include <stdio.h>
+#include <fstream>
+#include <iostream>
 #include <OpenCL/opencl.h>
 #include "Graph.hpp"
 #include "Tensor.hpp"
+#include "NetworkBufferParse.hpp"
+#include "LayerLoader.hpp"
+#include "InstructionInterpreter.hpp"
 
 class Network {
     Graph* g;
+    dispatch_queue_t queue;
+    InstructionInterpreter* input_pipeline;
+    InstructionInterpreter* output_pipeline;
+    
+public:
     Tensor* input;
     Tensor* output;
     Tensor* prediction;
-    dispatch_queue_t queue;
     
-public:
     float LearningRate = 0.01; // Learning rate
     
     float Learn();
     void Evaluate();
     Network(Tensor* input, Tensor* prediction, Tensor* output); // Initialise empty network
+    Network(std::string);
     bool Validate();
     
-    bool ImportNetwork();
-    bool ImportLayerParameters();
+    bool SaveNetwork(std::string);
 };
 
 #endif /* Network_hpp */

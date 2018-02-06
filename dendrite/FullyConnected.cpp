@@ -43,7 +43,7 @@ void Layers::FullyConnected::Forward(Tensor** input, Tensor* output, LearnablePa
     gcl_free(o_gpu_ptr);
 }
 
-void Layers::FullyConnected::Backprop(Tensor** err, Tensor* backprop_err, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue) {
+void Layers::FullyConnected::Backprop(Tensor** err, Tensor* backprop_err, Tensor* inp, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue) {
     void* err_gpu_ptr = gcl_malloc(sizeof(cl_float) * err[0]->dims.Size(), err[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
     void* l_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), learnable_params->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
     void* backproperr_gpu_ptr = gcl_malloc(sizeof(cl_float) * backprop_err->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
@@ -99,7 +99,7 @@ void Layers::FullyConnected::UpdateWeights(Tensor* deriv, Tensor* input, Learnab
             {0,0,0},
             {l_x * l_y * batch_size,0,0},
             // {l_x,l_y,0}
-            {l_x,0,0}
+            {NULL,0,0}
         };
         
         CalculateWeightDerivatives_kernel(&cwd_range, (cl_float*)deriv_gpu_ptr, (cl_float*)input_gpu_ptr, (cl_float*)wd_gpu_ptr);
@@ -116,7 +116,7 @@ void Layers::FullyConnected::UpdateWeights(Tensor* deriv, Tensor* input, Learnab
 Layers::FullyConnected::Hyperparameters::Hyperparameters(int Nodes) {
     this->Nodes = Nodes;
     this->mean = 0;
-    this->stddev = 1;
+    this->stddev = 0.1;
 }
 
 Layers::FullyConnected::Hyperparameters::Hyperparameters(int Nodes, float mean, float stddev) {
@@ -127,7 +127,6 @@ Layers::FullyConnected::Hyperparameters::Hyperparameters(int Nodes, float mean, 
 
 Dims Layers::FullyConnected::CalcOutputSize(Dims input, Hyperparameters params) {
     Dims output({1,1,1,1});
-    // std::cout << input;
     // Flattens to 1D array
     output.dims[0] = params.Nodes;
     output.dims[1] = 1;

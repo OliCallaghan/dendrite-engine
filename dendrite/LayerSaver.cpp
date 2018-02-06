@@ -33,7 +33,7 @@ bool GraphSaver::Save(std::string loc, std::vector<Layer> layers, Loss::Loss_T l
     output.open(loc);
     
     // Output input layer
-    output << "<inp s=" << layers[0].output->dims.GetSizeStr(',') << ">";
+    output << "<inp s=" << layers[0].output->dims.GetSizeStr(",") << ">";
     
     for (int i = 1; i < layers.size(); i++) {
         output << "<lay t=" << LayerTypeStr(layers[i].layer_t) << " id=" << i << " i=" << GetContents(layers[i].input) << " d=" << GetContents(layers[i].dependents) << ">";

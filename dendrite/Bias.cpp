@@ -35,6 +35,33 @@ void Layers::Bias::Forward(Tensor** input, Tensor* output, LearnableParameters* 
     gcl_free(o_gpu_ptr);
 }
 
+void Layers::Bias::BackpropDeltas(Tensor** deltas, Tensor* backprop_deltas, Tensor* inp, LearnableParameters* learnable_params, void *params, dispatch_queue_t* queue) {
+    memcpy(backprop_deltas->data, deltas[0]->data, sizeof(float) * deltas[0]->dims.Size());
+}
+
+void Layers::Bias::UpdateWeights(Tensor* deltas, Tensor* input, LearnableParameters* learnable_params, void* params, float eta, dispatch_queue_t* queue) {
+    // Maybe try and store learnable parameters on GPU?
+    void* d_gpu_ptr = gcl_malloc(sizeof(cl_float) * deltas->dims.Size(), deltas->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
+    void* l_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), learnable_params->data, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR);
+    
+    // Execute bias addition
+    dispatch_sync(*queue, ^{
+        size_t glbl_size = deltas->dims.Size();
+        size_t otpt_size = learnable_params->dims.Size();
+        cl_ndrange range = {
+            1,
+            {0,0,0},
+            {glbl_size,0,0},
+            {NULL,0,0}
+        };
+        UpdateBias_kernel(&range, (cl_float*)d_gpu_ptr, (cl_float*)l_gpu_ptr, eta);
+        gcl_memcpy(learnable_params->data, l_gpu_ptr, otpt_size * sizeof(cl_float));
+    });
+    
+    gcl_free(d_gpu_ptr);
+    gcl_free(l_gpu_ptr);
+}
+
 Layers::Bias::Hyperparameters::Hyperparameters() {
     this->mean = 0;
     this->stddev = 0.1;

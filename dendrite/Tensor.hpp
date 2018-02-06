@@ -21,7 +21,7 @@ struct Dims {
     int Size() const;
     int SizePerEx();
     std::string GetSizeStr();
-    std::string GetSizeStr(char delimiter);
+    std::string GetSizeStr(std::string);
 };
 
 class Tensor {
@@ -33,6 +33,7 @@ public:
     Tensor(std::vector<int> d);
     void LoadData(float* data);
     std::string GetDataStr() const;
+    std::string GetMNISTDataStr();
 };
 
 #endif /* Tensor_hpp */
