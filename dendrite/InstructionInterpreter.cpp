@@ -166,6 +166,36 @@ void InstructionInterpreter::OutputInstructionQueue() {
     }
 }
 
+bool SOFTMAX_CF(Tensor* output, Tensor* should_output, float loss_threshold) {
+    float max = 0;
+    int max_pos = 0;
+    for (int i = 0; i < output->dims.Size(); i++) {
+        if (output->data[i] > max) {
+            max = output->data[i];
+            max_pos = i;
+        }
+    }
+    
+    if (should_output->data[max_pos] == 1) {
+        return true;
+    }
+    return false;
+}
+
+bool L2_CF(Tensor* output, Tensor* should_output, float loss_threshold) {
+    float loss_total = 0;
+    for (int i = 0; i < output->dims.Size(); i++) {
+        if (pow(output->data[i] - should_output->data[i], 2) > pow(loss_threshold,2)) {
+            loss_total += 1;
+        }
+    }
+    float loss = loss_total / output->dims.Size();
+    if (loss < loss_threshold) {
+        return true;
+    }
+    return false;
+}
+
 InstructionInterpreter::InstructionInterpreter(std::string loc, Tensor* buf) : ten(buf), file(loc, std::ios::in) {
     std::string line;
     
@@ -186,6 +216,16 @@ InstructionInterpreter::InstructionInterpreter(std::string loc, Tensor* buf) : t
     while (op != NULL) {
         this->op_list.push_back(*op);
         op = LoadNextIntruction(&this->file);
+    }
+    
+    switch (this->op_list[this->op_list.size() - 1].operation) {
+        case Pipeline::Operation_T::SOFTMAX:
+            this->Classify = SOFTMAX_CF;
+            break;
+            
+        default:
+            this->Classify = L2_CF;
+            break;
     }
 }
 

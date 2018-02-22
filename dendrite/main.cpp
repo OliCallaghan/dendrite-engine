@@ -10,137 +10,103 @@
 #include "Tensor.hpp"
 #include "Network.hpp"
 #include "MNIST.hpp"
+#include "HyperparamsHandler.hpp"
 
-void MNISTRun(std::string str) {
-    MNISTHandler MNIST("/Users/Oli/Desktop/training_data/");
-    MNIST.VerifyDataSet();
-    Network n(str);
-    
-    n.LearningRate = 1e-3;
-    
-    MNIST.LoadData(n.input, n.prediction);
-    
-    /*float loss = 0;
-    for (int loop = 0; loop < 800000; loop++) {
-        MNIST.LoadData(n.input, n.prediction);
-        loss += n.Learn();
-        if (loop % 100 == 0) {
-            n.Evaluate();
-            n.LearningRate = n.LearningRate * 0.9999;
-            std::cout << "INPUT:\n" << n.input->GetMNISTDataStr() << "\n";
-            std::cout << "ITERATION " << loop << ": " << (loss / 100) << "\n";
-            loss = 0;
-            std::cout << "PREDICTED: " << n.prediction->GetDataStr() << "\n";
-            std::cout << "OUTPUT: " << n.output->GetDataStr() << "\n";
-            if (loop % 10000 == 0) {
-                n.SaveNetwork("/Users/Oli/Desktop/Network_Save/");
-            }
-        }
-    }*/
-    
-    // ACCURACY[2] = {Tests, Success}
-    float success = 0;
-    
-    for (int loop = 0; loop < 1000; loop++) {
-        MNIST.LoadData(n.input, n.prediction);
-        //std::cout << "INPUT:\n" << input.GetMNISTDataStr() << "\n";
-        n.Evaluate();
-        int prediction_class = MNIST.Classify(n.prediction);
-        int output_class = MNIST.Classify(n.output);
-        //std::cout << "CLASSIFY: " << prediction_class << ", " << output_class << "\n";
-        if (prediction_class == output_class) {
-            success += 1;
-        } else {
-            std::cout << "FAILED CLASSIFICATION:\n";
-            std::cout << "INPUT:\n" << n.input->GetMNISTDataStr() << "\n";
-            std::cout << "CLASSIFY: " << prediction_class << ", " << output_class << "\n";
-        }
-    }
-    float accuracy_val = success / 1000;
-    std::cout << "ACCURACY: " << accuracy_val << "\n";
-}
-
-void Run(std::string loc, float eta) {
+// Train :: model_location, learning_rate, learning_rate_decay_factor, iterations_to_decay, iterations_to_return_update, iterations_to_save_parameters
+void Train(std::string loc, float eta, float decay, int it_decay, int it, int it_rtrn, int it_save) {
     Network n(loc);
     n.LearningRate = eta;
     
     float loss = 0;
-    for (int loop = 0; loop < 800000; loop++) {
+    
+    for (int loop = 0; loop < it; loop++) {
         loss += n.Learn();
-        if (loop % 100 == 0) {
+        if (loop % it_rtrn == 0) {
             n.Evaluate();
-            n.LearningRate = n.LearningRate * 0.9999;
-            std::cout << "INPUT:\n" << n.input->GetMNISTDataStr() << "\n";
-            std::cout << "ITERATION " << loop << ": " << (loss / 100) << "\n";
+            std::cout << "ITERATION " << loop << ": " << (loss / it_rtrn) << "\n";
             loss = 0;
-            std::cout << "PREDICTED: " << n.prediction->GetDataStr() << "\n";
-            std::cout << "OUTPUT: " << n.output->GetDataStr() << "\n";
-            if (loop % 10000 == 0) {
-                n.SaveNetwork("/Users/Oli/Desktop/Network_Save/");
-            }
+        }
+        
+        if (loop % it_decay == 0) {
+            n.LearningRate = n.LearningRate * decay;
+        }
+        
+        if (loop % it_save == 0) {
+            n.SaveNetwork(loc);
         }
     }
+    
+    n.SaveNetwork(loc);
 }
 
-void STDRun() {
-    Tensor input({784,1,1,1});
-    Tensor prediction({10,1,1,1});
-    Tensor output({10,1,1,1});
+void Run(std::string loc, int it, float loss_threshold) {
+    Network n(loc);
     
-    MNISTHandler MNIST("/Users/Oli/Desktop/training_data/");
-    MNIST.VerifyDataSet();
-    
-    Network n(&input, &prediction, &output);
-    
-    n.LearningRate = 1e-2;
-    
-    MNIST.LoadData(&input, &prediction);
-    
-    float loss = 0;
-    for (int loop = 0; loop < 400000; loop++) {
-        MNIST.LoadData(&input, &prediction);
-        loss += n.Learn();
-        if (loop % 100 == 0) {
-            n.Evaluate();
-            n.LearningRate = n.LearningRate * 0.9999;
-            std::cout << "INPUT:\n" << input.GetMNISTDataStr() << "\n";
-            std::cout << "ETA: " << n.LearningRate << "\n";
-            std::cout << "ITERATION " << loop << ": " << (loss / 100) << "\n";
-            loss = 0;
-            std::cout << "PREDICTED: " << prediction.GetDataStr() << "\n";
-            std::cout << "OUTPUT: " << output.GetDataStr() << "\n";
-            if (loop % 10000 == 0) {
-                n.SaveNetwork("/Users/Oli/Desktop/Network_Save/");
-            }
-        }
-    }
-    
-    // ACCURACY[2] = {Tests, Success}
     float success = 0;
-    
-    for (int loop = 0; loop < 1000; loop++) {
-        MNIST.LoadData(&input, &prediction);
-        //std::cout << "INPUT:\n" << input.GetMNISTDataStr() << "\n";
+    for (int loop = 0; loop < it; loop++) {
         n.Evaluate();
-        int prediction_class = MNIST.Classify(&prediction);
-        int output_class = MNIST.Classify(&output);
-        //std::cout << "CLASSIFY: " << prediction_class << ", " << output_class << "\n";
-        if (prediction_class == output_class) {
+        if (n.Classify(loss_threshold)) {
             success += 1;
-        } else {
-            std::cout << "FAILED CLASSIFICATION:\n";
-            std::cout << "INPUT:\n" << input.GetMNISTDataStr() << "\n";
-            std::cout << "CLASSIFY: " << prediction_class << ", " << output_class << "\n";
         }
     }
-    float accuracy_val = success / 1000;
-    std::cout << "ACCURACY: " << accuracy_val << "\n";
+    success = success / it;
+    
+    std::cout << "ACCURACY: " << success * 100 << "%\n";
 }
 
 int main(int argc, const char * argv[]) {
-    // Layers must keep standard initialisation when loaded.
-    Run("/Users/Oli/Desktop/Network_Save/", 1e-5);
-    //STDRun();
+    // dendrite run
+    if (argc < 2) {
+        throw "Specify more arguments";
+    } else {
+        if (strcmp(argv[1], "run") == 0) {
+            // dendrite run
+            // dendrite run /path/to/save ITERATIONS (LOSS_THRESHOLD)
+            std::cout << "CALCULATING ACCURACY\n";
+            if (argc == 4) {
+                Run(argv[2], atoi(argv[3]), 0.1);
+            } else if (argc == 5) {
+                Run(argv[2], atoi(argv[3]), atof(argv[4]));
+            } else {
+                throw "Invalid arguments";
+            }
+        } else if (strcmp(argv[1], "hp_gen") == 0) {
+            // Generate Hyperparameters
+            // dendrite hp_gen /path/to/save PARAMS
+            std::cout << "GENERATING HYPERPARAMETERS\n";
+            HyperparamsHandler handler(argv[2]);
+            handler.Save(argv[3]);
+            // handler.Save("FC 1 nodes=9 mean=0 stddev=0.5");
+        } else if (strcmp(argv[1], "train") == 0) {
+            // dendrite train
+            // dendrite train /path/to/save ETA ETA_DECAY IT_DECAY IT_TOTAL IT_RETRN IT_SAVE
+            std::cout << "TRAINING NETWORK\n";
+            if (argc != 9) {
+                throw "Invalid arguments";
+            }
+            std::string loc = argv[2];
+            float eta, eta_decay;
+            int it, it_decay, it_rtrn, it_save;
+            bool err = false;
+            try {
+                eta = atof(argv[3]);
+                eta_decay = atof(argv[4]);
+                it_decay = atoi(argv[5]);
+                it = atoi(argv[6]);
+                it_rtrn = atoi(argv[7]);
+                it_save = atoi(argv[8]);
+            } catch (...) {
+                std::cout << "Error parsing parameters";
+                err = true;
+            }
+            
+            if (err == false) {
+                Train(loc, eta, eta_decay, it_decay, it, it_rtrn, it_save);
+            }
+        } else {
+            throw "Unknown mode";
+        }
+    }
     return 0;
 }
 

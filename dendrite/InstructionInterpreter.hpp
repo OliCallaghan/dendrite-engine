@@ -13,6 +13,7 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include <math.h>
 
 #include "BinaryFile.hpp"
 #include "Tensor.hpp"
@@ -57,6 +58,8 @@ public:
     
     void LoadNextDataBatch();
     void OutputInstructionQueue();
+    
+    bool (*Classify)(Tensor*, Tensor*, float);
 };
 
 #endif /* InstructionInterpreter_hpp */

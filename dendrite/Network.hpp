@@ -34,6 +34,8 @@ public:
     
     float Learn();
     void Evaluate();
+    bool Classify(float);
+    
     Network(Tensor* input, Tensor* prediction, Tensor* output); // Initialise empty network
     Network(std::string);
     bool Validate();

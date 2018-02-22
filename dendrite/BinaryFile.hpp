@@ -36,7 +36,7 @@ public:
 namespace BinaryFileReader {
     template <class T> void ReadBytesToTensor(BinaryFileHandler* handler, Tensor* buffer, long bytes_n) {
         // Read file and loop
-        handler->Increment(sizeof(T) * buffer->dims.Size());
+        handler->Increment(sizeof(T) * bytes_n);
         T bytes[buffer->dims.Size()];
         handler->file.read(reinterpret_cast<char*>(bytes), bytes_n);
         

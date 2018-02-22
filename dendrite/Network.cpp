@@ -89,6 +89,10 @@ void Network::Evaluate() {
     this->g->Evaluate(this->input, this->output, &(this->queue));
 }
 
+bool Network::Classify(float loss_threshold) {
+    return this->output_pipeline->Classify(this->output, this->prediction, loss_threshold);
+}
+
 float Network::Learn() {
     this->input_pipeline->LoadNextDataBatch();
     this->output_pipeline->LoadNextDataBatch();

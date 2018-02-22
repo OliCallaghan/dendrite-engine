@@ -39,6 +39,7 @@
 		4F9226371FA35603009C1434 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226351FA35603009C1434 /* Layer.cpp */; };
 		4FA30E1C1FB0655A0035373F /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA30E1B1FB0655A0035373F /* OpenCL.framework */; };
 		4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */; };
+		4FBDB684202C4DAD00EEC484 /* HyperparamsHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FBDB682202C4DAD00EEC484 /* HyperparamsHandler.cpp */; };
 		4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FC992151FA6648900266EE0 /* LearnableParameters.cpp */; };
 		4FEE4DD91FB9C0E7005D7F5A /* MatrixMultiply.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4FEE4DD81FB9C0E7005D7F5A /* MatrixMultiply.cl */; };
 /* End PBXBuildFile section */
@@ -117,6 +118,8 @@
 		4F9226361FA35603009C1434 /* Layer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Layer.hpp; sourceTree = "<group>"; };
 		4FA30E1B1FB0655A0035373F /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = ElementWiseAdd.cl; sourceTree = "<group>"; };
+		4FBDB682202C4DAD00EEC484 /* HyperparamsHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperparamsHandler.cpp; sourceTree = "<group>"; };
+		4FBDB683202C4DAD00EEC484 /* HyperparamsHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HyperparamsHandler.hpp; sourceTree = "<group>"; };
 		4FC992151FA6648900266EE0 /* LearnableParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LearnableParameters.cpp; sourceTree = "<group>"; };
 		4FC992161FA6648900266EE0 /* LearnableParameters.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LearnableParameters.hpp; sourceTree = "<group>"; };
 		4FEE4DD81FB9C0E7005D7F5A /* MatrixMultiply.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = MatrixMultiply.cl; sourceTree = "<group>"; };
@@ -159,6 +162,8 @@
 			children = (
 				4F3A62461FF2EA16004DA295 /* MNIST.cpp */,
 				4F3A62471FF2EA16004DA295 /* MNIST.hpp */,
+				4FBDB682202C4DAD00EEC484 /* HyperparamsHandler.cpp */,
+				4FBDB683202C4DAD00EEC484 /* HyperparamsHandler.hpp */,
 				4F213009201F1E4D00500287 /* BinaryFile.cpp */,
 				4F21300A201F1E4D00500287 /* BinaryFile.hpp */,
 				4F4363132020EAE600EA2833 /* InstructionInterpreter.cpp */,
@@ -408,6 +413,7 @@
 				4F9226271FA25533009C1434 /* Softplus.cpp in Sources */,
 				4F44FEED1FCC1ABD00FEFAD3 /* LossFn.cpp in Sources */,
 				4F12ECD41FFF849E00EE9ABC /* Logistic.cl in Sources */,
+				4FBDB684202C4DAD00EEC484 /* HyperparamsHandler.cpp in Sources */,
 				4F0A76402010E21100042D19 /* Conv.cl in Sources */,
 				4F9226051FA25371009C1434 /* Convolution.cpp in Sources */,
 				4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */,
