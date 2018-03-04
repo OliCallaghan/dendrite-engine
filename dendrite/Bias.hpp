@@ -10,8 +10,10 @@
 #define Bias_hpp
 
 #include <stdio.h>
+#include <iostream>
 #include <OpenCL/opencl.h>
 #include "LearnableParameters.hpp"
+#include "Exceptions.hpp"
 
 namespace Layers {
     namespace Bias {

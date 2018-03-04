@@ -7,6 +7,7 @@
 //
 
 #include "Network.hpp"
+#include "Exceptions.hpp"
 
 Network::Network(Tensor* i, Tensor* p, Tensor* o) {
     this->g = new Graph();
@@ -38,12 +39,16 @@ Network::Network(std::string location) {
     
     this->input = new Tensor(NetworkBufferParse::LoadInput(&model_struct));
     
-    // Initialise OpenCL dispatch queue
-    this->queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_GPU, NULL);
-    
-    if (this->queue == NULL) {
-        // Revert to CPU if GPU is unavailable
-        this->queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_CPU, NULL);
+    try {
+        // Initialise OpenCL dispatch queue
+        this->queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_GPU, NULL);
+        
+        if (this->queue == NULL) {
+            // Revert to CPU if GPU is unavailable
+            this->queue = gcl_create_dispatch_queue(CL_DEVICE_TYPE_CPU, NULL);
+        }
+    } catch (std::exception &e) {
+        throw InsufficientHardware();
     }
     
     std::string line;

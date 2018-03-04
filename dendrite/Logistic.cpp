@@ -10,8 +10,15 @@
 #include "Logistic.cl.h"
 
 void Layers::Logistic::Forward(Tensor** input, Tensor* output, LearnableParameters* lparams, void* params, dispatch_queue_t* queue) {
-    void* i_gpu_ptr = gcl_malloc(sizeof(cl_float) * input[0]->dims.Size(), input[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
-    void* o_gpu_ptr = gcl_malloc(sizeof(cl_float) * output->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
+    void* i_gpu_ptr;
+    void* o_gpu_ptr;
+    try {
+        i_gpu_ptr = gcl_malloc(sizeof(cl_float) * input[0]->dims.Size(), input[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
+        o_gpu_ptr = gcl_malloc(sizeof(cl_float) * output->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
+    } catch (...) {
+        std::cerr << "Error allocating memory for LOGISTIC FORWARDS PROPAGATION";
+        throw InsufficientHardware();
+    }
     
     size_t output_size = output->dims.Size();
     
@@ -35,9 +42,18 @@ void Layers::Logistic::Forward(Tensor** input, Tensor* output, LearnableParamete
 }
 
 void Layers::Logistic::Backprop(Tensor** err, Tensor* backprop_err, Tensor* inp, LearnableParameters* lparams, void* params, dispatch_queue_t* queue) {
-    void* d_gpu_ptr = gcl_malloc(sizeof(cl_float) * err[0]->dims.Size(), err[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
-    void* inpt_gpu_ptr = gcl_malloc(sizeof(cl_float) * inp->dims.Size(), inp->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
-    void* bd_gpu_ptr = gcl_malloc(sizeof(cl_float) * backprop_err->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
+    void* d_gpu_ptr;
+    void* inpt_gpu_ptr;
+    void* bd_gpu_ptr;
+    
+    try {
+        d_gpu_ptr = gcl_malloc(sizeof(cl_float) * err[0]->dims.Size(), err[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
+        inpt_gpu_ptr = gcl_malloc(sizeof(cl_float) * inp->dims.Size(), inp->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
+        bd_gpu_ptr = gcl_malloc(sizeof(cl_float) * backprop_err->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
+    } catch (...) {
+        std::cerr << "Error allocating memory for LOGISTIC BACKWARDS PROPAGATION";
+        throw InsufficientHardware();
+    }
     
     size_t output_size = backprop_err->dims.Size();
     
@@ -62,7 +78,7 @@ void Layers::Logistic::Backprop(Tensor** err, Tensor* backprop_err, Tensor* inp,
 }
 
 void Layers::Logistic::UpdateWeights(Tensor*, Tensor*, LearnableParameters*, void*, float, dispatch_queue_t*) {
-    // No weights to update lol
+    // No weights to update
 }
 
 Dims Layers::Logistic::CalcOutputSize(Dims input) {

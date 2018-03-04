@@ -11,7 +11,6 @@
 		4F12ECD41FFF849E00EE9ABC /* Logistic.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4F12ECD31FFF849E00EE9ABC /* Logistic.cl */; };
 		4F12ECD7200E2E9B00EE9ABC /* NetworkBufferParse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F12ECD5200E2E9B00EE9ABC /* NetworkBufferParse.cpp */; };
 		4F1D6B5A1FE05C2000D4844B /* LayerLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F1D6B581FE05C2000D4844B /* LayerLoader.cpp */; };
-		4F1D6B5E1FE1D44D00D4844B /* LayerSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F1D6B5C1FE1D44D00D4844B /* LayerSaver.cpp */; };
 		4F21300B201F1E4D00500287 /* BinaryFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F213009201F1E4D00500287 /* BinaryFile.cpp */; };
 		4F3A62481FF2EA16004DA295 /* MNIST.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F3A62461FF2EA16004DA295 /* MNIST.cpp */; };
 		4F4363152020EAE600EA2833 /* InstructionInterpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F4363132020EAE600EA2833 /* InstructionInterpreter.cpp */; };
@@ -22,7 +21,6 @@
 		4F9225EA1FA24934009C1434 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225E91FA24934009C1434 /* main.cpp */; };
 		4F9225F51FA24D7E009C1434 /* Tensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F31FA24D7E009C1434 /* Tensor.cpp */; };
 		4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F81FA2520B009C1434 /* Network.cpp */; };
-		4F9225FE1FA2531C009C1434 /* TrainingData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225FC1FA2531C009C1434 /* TrainingData.cpp */; };
 		4F9226021FA25360009C1434 /* FullyConnected.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226001FA25360009C1434 /* FullyConnected.cpp */; };
 		4F9226051FA25371009C1434 /* Convolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226031FA25371009C1434 /* Convolution.cpp */; };
 		4F9226081FA25462009C1434 /* BatchNormalisation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226061FA25462009C1434 /* BatchNormalisation.cpp */; };
@@ -39,6 +37,7 @@
 		4F9226371FA35603009C1434 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226351FA35603009C1434 /* Layer.cpp */; };
 		4FA30E1C1FB0655A0035373F /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA30E1B1FB0655A0035373F /* OpenCL.framework */; };
 		4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */; };
+		4FB15FAB2049A06800A5D4A0 /* Exceptions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FB15FAA2049A06800A5D4A0 /* Exceptions.cpp */; };
 		4FBDB684202C4DAD00EEC484 /* HyperparamsHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FBDB682202C4DAD00EEC484 /* HyperparamsHandler.cpp */; };
 		4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FC992151FA6648900266EE0 /* LearnableParameters.cpp */; };
 		4FEE4DD91FB9C0E7005D7F5A /* MatrixMultiply.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4FEE4DD81FB9C0E7005D7F5A /* MatrixMultiply.cl */; };
@@ -47,12 +46,12 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		4F9225E41FA24934009C1434 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			buildActionMask = 12;
+			dstPath = "/Users/Oli/Documents/CRGS/A Levels/GCE Computer Science/Computing Project/Code/dendrite-ui/executables";
 			dstSubfolderSpec = 0;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -63,8 +62,6 @@
 		4F12ECD6200E2E9B00EE9ABC /* NetworkBufferParse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkBufferParse.hpp; sourceTree = "<group>"; };
 		4F1D6B581FE05C2000D4844B /* LayerLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerLoader.cpp; sourceTree = "<group>"; };
 		4F1D6B591FE05C2000D4844B /* LayerLoader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LayerLoader.hpp; sourceTree = "<group>"; };
-		4F1D6B5C1FE1D44D00D4844B /* LayerSaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayerSaver.cpp; sourceTree = "<group>"; };
-		4F1D6B5D1FE1D44D00D4844B /* LayerSaver.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LayerSaver.hpp; sourceTree = "<group>"; };
 		4F213009201F1E4D00500287 /* BinaryFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BinaryFile.cpp; sourceTree = "<group>"; };
 		4F21300A201F1E4D00500287 /* BinaryFile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BinaryFile.hpp; sourceTree = "<group>"; };
 		4F3A62461FF2EA16004DA295 /* MNIST.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MNIST.cpp; sourceTree = "<group>"; };
@@ -85,8 +82,6 @@
 		4F9225F41FA24D7E009C1434 /* Tensor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tensor.hpp; sourceTree = "<group>"; };
 		4F9225F81FA2520B009C1434 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
 		4F9225F91FA2520B009C1434 /* Network.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Network.hpp; sourceTree = "<group>"; };
-		4F9225FC1FA2531C009C1434 /* TrainingData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrainingData.cpp; sourceTree = "<group>"; };
-		4F9225FD1FA2531C009C1434 /* TrainingData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TrainingData.hpp; sourceTree = "<group>"; };
 		4F9226001FA25360009C1434 /* FullyConnected.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FullyConnected.cpp; sourceTree = "<group>"; };
 		4F9226011FA25360009C1434 /* FullyConnected.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FullyConnected.hpp; sourceTree = "<group>"; };
 		4F9226031FA25371009C1434 /* Convolution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convolution.cpp; sourceTree = "<group>"; };
@@ -118,6 +113,8 @@
 		4F9226361FA35603009C1434 /* Layer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Layer.hpp; sourceTree = "<group>"; };
 		4FA30E1B1FB0655A0035373F /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		4FA30E1D1FB0663C0035373F /* ElementWiseAdd.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = ElementWiseAdd.cl; sourceTree = "<group>"; };
+		4FB15FA820499DD800A5D4A0 /* Exceptions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Exceptions.hpp; sourceTree = "<group>"; };
+		4FB15FAA2049A06800A5D4A0 /* Exceptions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exceptions.cpp; sourceTree = "<group>"; };
 		4FBDB682202C4DAD00EEC484 /* HyperparamsHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperparamsHandler.cpp; sourceTree = "<group>"; };
 		4FBDB683202C4DAD00EEC484 /* HyperparamsHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HyperparamsHandler.hpp; sourceTree = "<group>"; };
 		4FC992151FA6648900266EE0 /* LearnableParameters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LearnableParameters.cpp; sourceTree = "<group>"; };
@@ -151,8 +148,6 @@
 			children = (
 				4F1D6B581FE05C2000D4844B /* LayerLoader.cpp */,
 				4F1D6B591FE05C2000D4844B /* LayerLoader.hpp */,
-				4F1D6B5C1FE1D44D00D4844B /* LayerSaver.cpp */,
-				4F1D6B5D1FE1D44D00D4844B /* LayerSaver.hpp */,
 			);
 			name = "Graph Helper Methods";
 			sourceTree = "<group>";
@@ -204,6 +199,7 @@
 				4F9225E91FA24934009C1434 /* main.cpp */,
 				4F9225F71FA251E9009C1434 /* Network */,
 				4F9225F61FA251D2009C1434 /* Tensor */,
+				4FB15FA620499DA600A5D4A0 /* Exceptions */,
 			);
 			path = dendrite;
 			sourceTree = "<group>";
@@ -213,7 +209,6 @@
 			children = (
 				4F9225F31FA24D7E009C1434 /* Tensor.cpp */,
 				4F9225F41FA24D7E009C1434 /* Tensor.hpp */,
-				4F9225FB1FA2530A009C1434 /* Training Data */,
 			);
 			name = Tensor;
 			sourceTree = "<group>";
@@ -231,15 +226,6 @@
 				4F7FBD1D1FC7778000728E39 /* Loss */,
 			);
 			name = Network;
-			sourceTree = "<group>";
-		};
-		4F9225FB1FA2530A009C1434 /* Training Data */ = {
-			isa = PBXGroup;
-			children = (
-				4F9225FC1FA2531C009C1434 /* TrainingData.cpp */,
-				4F9225FD1FA2531C009C1434 /* TrainingData.hpp */,
-			);
-			name = "Training Data";
 			sourceTree = "<group>";
 		};
 		4F9225FF1FA25323009C1434 /* Layers */ = {
@@ -306,6 +292,15 @@
 				4FA30E1B1FB0655A0035373F /* OpenCL.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4FB15FA620499DA600A5D4A0 /* Exceptions */ = {
+			isa = PBXGroup;
+			children = (
+				4FB15FAA2049A06800A5D4A0 /* Exceptions.cpp */,
+				4FB15FA820499DD800A5D4A0 /* Exceptions.hpp */,
+			);
+			name = Exceptions;
 			sourceTree = "<group>";
 		};
 		4FC992141FA656B200266EE0 /* Algorithms */ = {
@@ -401,6 +396,7 @@
 				4F92261B1FA254D8009C1434 /* Binary Step.cpp in Sources */,
 				4F9226111FA25491009C1434 /* Bias.cpp in Sources */,
 				4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */,
+				4FB15FAB2049A06800A5D4A0 /* Exceptions.cpp in Sources */,
 				4F92261E1FA254EA009C1434 /* Logistic.cpp in Sources */,
 				4F4363152020EAE600EA2833 /* InstructionInterpreter.cpp in Sources */,
 				4F92262E1FA25785009C1434 /* Graph.cpp in Sources */,
@@ -417,8 +413,6 @@
 				4F0A76402010E21100042D19 /* Conv.cl in Sources */,
 				4F9226051FA25371009C1434 /* Convolution.cpp in Sources */,
 				4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */,
-				4F9225FE1FA2531C009C1434 /* TrainingData.cpp in Sources */,
-				4F1D6B5E1FE1D44D00D4844B /* LayerSaver.cpp in Sources */,
 				4F9226371FA35603009C1434 /* Layer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

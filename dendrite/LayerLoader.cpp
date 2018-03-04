@@ -7,22 +7,26 @@
 //
 
 #include "LayerLoader.hpp"
+#include "Exceptions.hpp"
 
 Layers::Layer_T DetermineLayer(std::string t) {
     if (t == "FC") {
         return Layers::Layer_T::FullyConnected_T;
-    } else if (t == "LG") {
+    } else if (t == "LOG") {
         return Layers::Layer_T::Logistic_T;
     } else if (t == "B") {
         return Layers::Layer_T::Bias_T;
     } else {
-        throw "Unsupported Layer Type";
+        throw UnsupportedLayerType(t);
     }
 }
 
 bool GraphLoader::ParseLayer(std::string line, GraphLoader::LayerDetails* layer) {
     std::regex layer_exprn("<lay (t)=([A-Z]+) (id)=([0-9]+) (i)=((?:[0-9]+)(?:,[0-9]+)*) (d)=((?:[0-9]+)(?:,[0-9]+)*)>");
     std::smatch match;
+    
+    // set[] = {type, id, inpt, dpt}
+    bool set[] = {false, false, false, false};
     
     Layers::Layer_T type;
     short id;
@@ -39,14 +43,18 @@ bool GraphLoader::ParseLayer(std::string line, GraphLoader::LayerDetails* layer)
                 
                 // Determine layer type from match
                 type = DetermineLayer(match[m+1]);
+                layer->type = type;
                 
                 // Skip next match
                 m += 1;
+                set[0] = true;
             } else if (match[m] == "id") {
                 // Layer ID definition
                 id = std::stoi(match[m+1]);
+                layer->id = id;
                 
                 m += 1;
+                set[1] = true;
             } else if (match[m] == "i") {
                 // Inputs definition
                 // Stream inputs from input string to input array
@@ -56,8 +64,11 @@ bool GraphLoader::ParseLayer(std::string line, GraphLoader::LayerDetails* layer)
                     inpt.push_back(std::stoi(str_buf));
                 }
                 
+                layer->inputs = inpt;
+                
                 // Skip next match
                 m += 1;
+                set[2] = true;
             } else if (match[m] == "d") {
                 // Dependents definition
                 // Stream inputs from input string to input array
@@ -67,14 +78,16 @@ bool GraphLoader::ParseLayer(std::string line, GraphLoader::LayerDetails* layer)
                     dpt.push_back(std::stoi(str_buf));
                 }
                 
+                layer->dependents = dpt;
+                
                 m += 1;
+                set[3] = true;
             }
         }
         
-        layer->type = type;
-        layer->id = id;
-        layer->inputs = inpt;
-        layer->dependents = dpt;
+        if ((set[0] == false) || (set[1] == false) || (set[2] == false) || (set[3] == false)) {
+            throw ModelStructSyntaxError(line, "<lay t=TYPE id=ID i=INPUTS d=DEPENDENTS");
+        }
         
         return true;
     } else {
@@ -83,13 +96,16 @@ bool GraphLoader::ParseLayer(std::string line, GraphLoader::LayerDetails* layer)
 }
 
 Loss::Loss_T GraphLoader::ParseLoss(std::string line) {
-    std::regex loss_exprn("<loss f=(L2)>");
+    std::regex loss_exprn("<loss f=([A-Za-z0-9]+)>");
     std::smatch match;
     if (std::regex_match(line, match, loss_exprn)) {
         // Parse loss function
         if (match[1] == "L2") {
             return Loss::Loss_T::L2_T;
+        } else {
+            throw UnsupportedLossFunction(match[1]);
         }
+    } else {
+        throw ModelStructSyntaxError(line, "<loss f=LOSS_FN>");
     }
-    throw "Unsupported loss function";
 }

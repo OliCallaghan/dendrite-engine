@@ -20,20 +20,37 @@ void SaveFC(std::string data, std::string loc, short n) {
     hp_loc << loc << "hp" << n << ".dat";
     
     if (std::regex_match(data, match, FC_rgx)) {
-        std::ofstream file(hp_loc.str(), std::ios::binary | std::ios::out);
+        std::ofstream file;
         
-        int nodes = stoi(match[1]);
-        float mean = stof(match[2]);
-        float stddev = stof(match[4]);
+        char match_pos = 1;
+        int nodes;
+        float mean, stddev;
+        try {
+            nodes = stoi(match[1]); match_pos++;
+            mean = stof(match[2]); match_pos++;
+            stddev = stof(match[4]); match_pos++;
+        } catch (std::exception &e) {
+            if (match_pos == 1) {
+                throw ConversionError(match[match_pos], "Integer");
+            } else {
+                throw ConversionError(match[match_pos], "Float");
+            }
+        }
         
         Layers::FullyConnected::Hyperparameters hp(nodes, mean, stddev);
         
-        // Save
-        file.seekp(0);
-        
-        file.write((char*)(&hp), sizeof(hp));
-        
-        file.close();
+        try {
+            // Save
+            file.open(hp_loc.str(), std::ios::binary | std::ios::out);
+            
+            file.seekp(0);
+            
+            file.write((char*)(&hp), sizeof(hp));
+            
+            file.close();
+        } catch (...) {
+            throw FailedSavingHP(NULL);
+        }
     }
 }
 
@@ -45,32 +62,52 @@ void SaveB(std::string data, std::string loc, short n) {
     hp_loc << loc << "hp" << n << ".dat";
     
     if (std::regex_match(data, match, B_rgx)) {
-        std::ofstream file(hp_loc.str(), std::ios::binary | std::ios::out);
+        std::ofstream file;
         
-        float mean = stof(match[1]);
-        float stddev = stof(match[2]);
+        char match_pos = 1;
+        float mean, stddev;
+        try {
+            mean = stof(match[1]); match_pos++;
+            stddev = stof(match[2]);
+        } catch (std::exception &e) {
+            throw ConversionError(match[match_pos], "Float");
+        }
         
         Layers::Bias::Hyperparameters hp(mean, stddev);
         
-        // Save
-        file.seekp(0);
-        
-        file.write((char*)(&hp), sizeof(hp));
-        
-        file.close();
+        try {
+            // Save
+            file.open(hp_loc.str(), std::ios::binary | std::ios::out | std::ofstream::trunc);
+            
+            file.seekp(0);
+            
+            file.write((char*)(&hp), sizeof(hp));
+            
+            file.close();
+        } catch (...) {
+            throw FailedSavingHP(NULL);
+        }
     }
 }
 
 void HyperparamsHandler::Save(std::string line) {
-    size_t layer_t_pos = line.find(" ");
-    std::string layer_t = line.substr(0, layer_t_pos);
+    size_t layer_t_pos, n_pos;
+    std::string layer_t, line2, data;
+    int n;
+    try {
+        layer_t_pos = line.find(" ");
+        layer_t = line.substr(0, layer_t_pos);
+        
+        line2 = line.substr(layer_t_pos + 1); // Rest of line without layer_t
+        
+        n_pos = line2.find(" ");
+        n = stoi(line2.substr(0, n_pos));
+        
+        data = line2.substr(n_pos + 1);
+    } catch (...) {
+        throw ;
+    }
     
-    std::string line2 = line.substr(layer_t_pos + 1); // Rest of line without layer_t
-    
-    size_t n_pos = line2.find(" ");
-    int n = stoi(line2.substr(0, n_pos));
-    
-    std::string data = line2.substr(n_pos + 1);
     
     if (layer_t == "FC") {
         SaveFC(data, this->loc, n);

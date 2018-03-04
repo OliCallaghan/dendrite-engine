@@ -11,9 +11,17 @@
 
 void Layers::Bias::Forward(Tensor** input, Tensor* output, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue) {
     // Maybe try and store learnable parameters on GPU?
-    void* i_gpu_ptr = gcl_malloc(sizeof(cl_float) * input[0]->dims.Size(), input[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
-    void* l_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), learnable_params->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
-    void* o_gpu_ptr = gcl_malloc(sizeof(cl_float) * output->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
+    void* i_gpu_ptr;
+    void* l_gpu_ptr;
+    void* o_gpu_ptr;
+    try {
+        i_gpu_ptr = gcl_malloc(sizeof(cl_float) * input[0]->dims.Size(), input[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
+        l_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), learnable_params->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
+        o_gpu_ptr = gcl_malloc(sizeof(cl_float) * output->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
+    } catch (...) {
+        std::cerr << "Error allocating memory for BIAS FORWARDS PROPAGATION";
+        throw InsufficientHardware();
+    }
     
     // Execute bias addition
     dispatch_sync(*queue, ^{
@@ -41,8 +49,15 @@ void Layers::Bias::BackpropDeltas(Tensor** deltas, Tensor* backprop_deltas, Tens
 
 void Layers::Bias::UpdateWeights(Tensor* deltas, Tensor* input, LearnableParameters* learnable_params, void* params, float eta, dispatch_queue_t* queue) {
     // Maybe try and store learnable parameters on GPU?
-    void* d_gpu_ptr = gcl_malloc(sizeof(cl_float) * deltas->dims.Size(), deltas->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
-    void* l_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), learnable_params->data, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR);
+    void* d_gpu_ptr;
+    void* l_gpu_ptr;
+    try {
+        d_gpu_ptr = gcl_malloc(sizeof(cl_float) * deltas->dims.Size(), deltas->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
+        l_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), learnable_params->data, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR);
+    } catch (...) {
+        std::cerr << "Error allocating memory for BIAS UPDATE WEIGHTS METHOD";
+        throw InsufficientHardware();
+    }
     
     // Execute bias addition
     dispatch_sync(*queue, ^{

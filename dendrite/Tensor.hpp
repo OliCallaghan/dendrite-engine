@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <vector>
 #include <string>
+#include "Exceptions.hpp"
 
 // Dimensions:
 //  Stored as (x,y,z,batch)

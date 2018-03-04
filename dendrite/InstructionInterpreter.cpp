@@ -21,7 +21,7 @@ long GetJumpLocation(std::ifstream* file) {
         // Parse loss function
         pos = atol(match[1].str().c_str());
     } else {
-        throw "Second line must denote JUMP location";
+        throw GenericInstructionError("Second line of pipeline must be JUMP statement");
     }
     
     return pos;
@@ -42,15 +42,15 @@ long GetRepeatLocation(long start_pos, std::ifstream* file) {
         s_pos = atol(match[1].str().c_str());
         e_pos = atol(match[2].str().c_str());
     } else {
-        throw "NO LOOP STATEMENT";
+        throw InvalidInstruction(line);
     }
     
     if (s_pos > e_pos) {
-        throw "Invalid start and end positions";
+        throw InvalidInstruction(line);
     }
     
     if (start_pos != s_pos) {
-        throw "Start position is incorrect in LOOP statement";
+        throw GenericInstructionError("LOOP start position must match JUMP position");
     }
     
     return e_pos;
@@ -70,7 +70,7 @@ Pipeline::Data_T GetDataTypeFromStr(std::string type) {
     } else if (type == "BIT") {
         return Pipeline::Data_T::BIT;
     } else {
-        throw "UNSUPPORTED DATA TYPE";
+        throw UnsupportedDataType(type);
     }
 }
 
@@ -90,7 +90,7 @@ std::string GetStrFromDataType(Pipeline::Data_T type) {
     } else if (type == Pipeline::Data_T::NONE) {
         return "NONE";
     } else {
-        throw "UNSUPPORTED DATA DEFINITION";
+        throw UnsupportedDataType("UNKNOWN");
     }
 }
 
@@ -111,7 +111,7 @@ std::string GetStrFromOp(Pipeline::Operation_T type) {
         case Pipeline::Operation_T::SOFTMAX:
             return "SOFTMAX";
         default:
-            return "ERR";
+            throw InvalidInstruction("UNKNOWN");
             break;
     }
 }
@@ -148,7 +148,7 @@ Pipeline::Operation* LoadNextIntruction(std::ifstream* file) {
         // CONVERT TO SOFTMAX DISTRIBUTION
         return new Pipeline::Operation(Pipeline::Operation_T::SOFTMAX, NULL, Pipeline::Data_T::NONE, stof(match[1].str()));
     } else {
-        throw "ERROR IN PIPELINE SYNTAX";
+        throw InvalidInstruction(line);
     }
 }
 
@@ -227,6 +227,10 @@ InstructionInterpreter::InstructionInterpreter(std::string loc, Tensor* buf) : t
             this->Classify = L2_CF;
             break;
     }
+}
+
+InstructionInterpreter::~InstructionInterpreter() {
+    this->file.close();
 }
 
 template <class T> void READ_F(BinaryFileHandler* handler, Tensor* buffer, long bytes, float param) {
@@ -325,8 +329,12 @@ Pipeline::Operation::Operation(Pipeline::Operation_T i_t, long bytes, Data_T d_t
 }
 
 void InstructionInterpreter::LoadNextDataBatch() {
-    for (int instr = 0; instr < this->op_list.size(); instr++) {
-        this->op_list[instr].Execute(handler, this->ten, this->op_list[instr].bytes, this->op_list[instr].param);
-        //std::cout << this->ten->GetMNISTDataStr() << "\n";
+    try {
+        for (int instr = 0; instr < this->op_list.size(); instr++) {
+            this->op_list[instr].Execute(handler, this->ten, this->op_list[instr].bytes, this->op_list[instr].param);
+        }
+    } catch (std::exception &e) {
+        std::cerr << "Error loading data from pipeline\n";
+        throw;
     }
 }

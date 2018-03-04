@@ -7,6 +7,7 @@
 //
 
 #include "NetworkBufferParse.hpp"
+#include "Exceptions.hpp"
 
 Dims NetworkBufferParse::LoadInput(std::ifstream* file) {
     // Load line
@@ -32,7 +33,7 @@ Dims NetworkBufferParse::LoadInput(std::ifstream* file) {
         return dims;
     } else {
         // Invalid line
-        throw "Invalid <inp> tag";
+        throw ModelStructSyntaxError(line, "<inp s=dim0,dim1,dim2,dim3>");
     }
 
 }

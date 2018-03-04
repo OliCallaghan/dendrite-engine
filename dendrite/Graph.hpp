@@ -21,8 +21,6 @@ class Graph {
     Loss::LossFn* loss_fn;
     Loss::Loss_T loss_t;
 public:
-    // Load graph structure **note does not load / initialise layers
-    bool Load(std::string, Tensor*);
     bool LoadFixed(); // Until file structure is finalised
     
     bool Save(std::string, Dims, Dims);

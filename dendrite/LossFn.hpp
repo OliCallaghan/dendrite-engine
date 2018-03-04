@@ -13,6 +13,7 @@
 #include <functional>
 #include "Loss.hpp"
 #include "Tensor.hpp"
+#include "Exceptions.hpp"
 
 namespace Loss {
     struct LossFn {

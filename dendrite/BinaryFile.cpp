@@ -31,18 +31,10 @@ void BinaryFileHandler::Increment(long n) {
     }
 }
 
-/*template <class T> void BinaryFileReader::ReadBytesToTensor(BinaryFileHandler* handler, Tensor* buffer, long bytes_n) {
-    // Read file and loop
-    handler->Increment(sizeof(T) * buffer->dims.Size());
-    T bytes[buffer->dims.Size()];
-    handler->file.read(reinterpret_cast<char*>(bytes), sizeof(T) * buffer->dims.Size());
-    
-    for (int i = 0; i < buffer->dims.Size(); i++) {
-        buffer->data[i] = bytes[i];
-    }
-}*/
-
 void BinaryFileReader::ReadBitsToTensor(BinaryFileHandler* handler, Tensor* buffer, long bits) {
+    if (bits > buffer->dims.Size()) {
+        throw IncorrectReadSize(bits, buffer->dims.Size(), true);
+    }
     
     long len = (bits + 7) / 8;
     

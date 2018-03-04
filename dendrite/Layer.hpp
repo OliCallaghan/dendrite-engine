@@ -18,6 +18,7 @@
 #include <OpenCL/opencl.h>
 #include "Layers.hpp"
 #include "LearnableParameters.hpp"
+#include "Exceptions.hpp"
 
 struct Layer {
     Layers::Layer_T layer_t;

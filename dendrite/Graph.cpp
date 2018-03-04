@@ -9,24 +9,39 @@
 #include <iostream>
 #include <fstream>
 #include "Graph.hpp"
+#include "Exceptions.hpp"
 #include <string>
+
+std::string ReturnLayerStr(Layers::Layer_T type) {
+    switch (type) {
+        case Layers::FullyConnected_T:
+            return "FC";
+            break;
+        case Layers::Logistic_T:
+            return "LOG";
+            break;
+        case Layers::Bias_T:
+            return "B";
+            break;
+        default:
+            throw UnsupportedLayerType("UNKNOWN");
+            break;
+    }
+}
 
 Dims getDimsOfOutput(Dims input, Layers::Layer_T layer_t, void* hyperparameters) {
     switch (layer_t) {
         case Layers::FullyConnected_T:
             return Layers::FullyConnected::CalcOutputSize(input, *(Layers::FullyConnected::Hyperparameters*)hyperparameters);
             break;
-            
         case Layers::Bias_T:
             return Layers::Bias::CalcOutputSize(input);
             break;
-            
         case Layers::Logistic_T:
             return Layers::Logistic::CalcOutputSize(input);
             break;
-            
         default:
-            throw "Unsupported Layer";
+            throw UnsupportedLayerType("UNKNOWN");
             break;
     }
 }
@@ -36,15 +51,13 @@ LearnableParameters* InitialiseLearnableParameters(Layers::Layer_T layer_t, void
         case Layers::FullyConnected_T:
             return Layers::FullyConnected::InitialiseLearnableParameters(*(Layers::FullyConnected::Hyperparameters*)hyperparameters, dims);
             break;
-            
         case Layers::Bias_T:
             return Layers::Bias::InitialiseLearnableParameters(*(Layers::Bias::Hyperparameters*)hyperparameters, dims);
-            
+            break;
         default:
-            throw "Unsupported Layer";
+            throw UnsupportedLayerType("UNKNOWN");
             break;
     }
-    return NULL;
 }
 
 bool HasHyperparameters(Layers::Layer_T t) {
@@ -59,44 +72,9 @@ bool HasHyperparameters(Layers::Layer_T t) {
             return true;
             break;
         default:
-            throw "Unknown Layer Type";
+            throw UnsupportedLayerType("UNKNOWN");
             break;
     }
-}
-
-bool Graph::Load(std::string location, Tensor* input) {
-    std::ifstream model_struct;
-    model_struct.open(location.append("/model.struct"));
-    
-    std::string line;
-    std::vector<std::string> laybuf = {};
-    
-    // Import each line
-    while (getline(model_struct, line)) {
-        laybuf.push_back(line);
-    }
-    
-    if (laybuf.size() < 3) {
-        // Invalid network size
-        throw "Invalid network size.";
-    }
-    
-    // Process input
-    // laybuf[0];
-    // GraphLoader::ParseLine(laybuf[0]);
-    /*this->layers.push_back(*GraphLoader::ParseInput(laybuf[0], input));
-    
-    for (int lay = 1; lay < laybuf.size() - 1; lay++) {
-        this->layers.push_back(*GraphLoader::ParseLayer(laybuf[lay], location));
-    }
-    
-    this->layer_n = this->layers.size();
-    */
-    // Interpret final loss layer
-    //this->loss_fn = new Loss::LossFn(GraphLoader::ParseLoss(laybuf[laybuf.size() - 1]));
-    
-    // Implement loading
-    return true;
 }
 
 bool Graph::LoadFixed() {
@@ -137,22 +115,6 @@ bool Graph::LoadFixed() {
     std::vector<short> d6 = {6};
     this->layers.push_back(*new Layer(Layers::Layer_T::Logistic_T, i6, d6, NULL));
     
-    /*
-    std::vector<short> i2 = {1};
-    std::vector<short> d2 = {3};
-    Layers::FullyConnected::Hyperparameters* h_p2 = new Layers::FullyConnected::Hyperparameters(100);
-    this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i2, d2, (void*)(h_p2)));
-    
-    std::vector<short> i3 = {2};
-    std::vector<short> d3 = {3};
-    Layers::FullyConnected::Hyperparameters* h_p3 = new Layers::FullyConnected::Hyperparameters(10);
-    this->layers.push_back(*new Layer(Layers::Layer_T::FullyConnected_T, i3, d3, (void*)(h_p3)));*/
-    
-    //std::vector<short> i3 = {2};
-    //std::vector<short> d3 = {NULL};
-    //Layers::Bias::Hyperparameters* h_p3 = new Layers::Bias::Hyperparameters(0, 0.1);
-    //this->layers.push_back(*new Layer(Layers::Layer_T::Bias_T, i3, d3, h_p3));
-    
     this->layer_n = this->layers.size();
     this->loss_t = Loss::L2_T;
     this->loss_fn = new Loss::LossFn(Loss::L2_T);
@@ -167,27 +129,34 @@ void* ExtractHyperparameters(std::string loc, short id, Layers::Layer_T type) {
     std::stringstream full_location;
     full_location << loc << "hparams/hp" << id << ".dat";
     
-    // Open Hyperparameters file
-    hyperparameters_f.open(full_location.str(), std::ios::out | std::ios::binary);
-    
-    size_t size;
-    
-    switch (type) {
-        case Layers::FullyConnected_T:
-            size = sizeof(Layers::FullyConnected::Hyperparameters);
-            break;
-        case Layers::Bias_T:
-            size = sizeof(Layers::Bias::Hyperparameters);
-            break;
-        default:
-            break;
+    try {
+        // Open Hyperparameters file
+        hyperparameters_f.open(full_location.str(), std::ios::out | std::ios::binary);
+        
+        size_t size;
+        
+        switch (type) {
+            case Layers::FullyConnected_T:
+                size = sizeof(Layers::FullyConnected::Hyperparameters);
+                break;
+            case Layers::Bias_T:
+                size = sizeof(Layers::Bias::Hyperparameters);
+                break;
+            default:
+                throw UnsupportedLayerType("UNKNOWN");
+                break;
+        }
+        
+        void* hp = malloc(size);
+        hyperparameters_f.read((char*)hp, size);
+        
+        hyperparameters_f.close();
+        
+        return hp;
+    } catch (...) {
+        hyperparameters_f.close();
+        throw FailedLoadingHP(id, ReturnLayerStr(type));
     }
-    
-    void* hp = malloc(size);
-    
-    hyperparameters_f.read((char*)hp, size);
-    
-    return hp;
 }
 
 bool Graph::InsertLayer(std::string loc, Layers::Layer_T type, short id, std::vector<short> inputs, std::vector<short> dependents) {
@@ -204,6 +173,7 @@ bool Graph::InsertLayer(std::string loc, Layers::Layer_T type, short id, std::ve
 }
 
 bool Graph::InsertInput(Tensor* input) {
+    // Next layer will always be a dependent of INPUT
     this->layers.push_back(*new Layer(Layers::Layer_T::Input_T, {NULL}, {1}, NULL));
     this->layer_n = this->layers.size();
     return true;
@@ -212,20 +182,25 @@ bool Graph::InsertInput(Tensor* input) {
 bool Graph::InitialiseLayers(Tensor* input) {
     // Check that layer 0 is input
     if (this->layers[0].layer_t != Layers::Layer_T::Input_T) {
-        throw "ERR: First layer must be input layer!";
+        throw GraphStructureError("First layer must be INPUT layer");
     }
     
     this->layers[0].output = input;
     
-    for (int pos = 1; pos < this->layer_n; pos++) {
-        // Initialise output buffer
-        this->layers[pos].output = new Tensor(getDimsOfOutput(this->layers[this->layers[pos].input[0]].output->dims, this->layers[pos].layer_t, this->layers[pos].hyperparameters));
-        // Initialise delta buffer
-        this->layers[pos].delta = new Tensor(getDimsOfOutput(this->layers[this->layers[pos].input[0]].output->dims, this->layers[pos].layer_t, this->layers[pos].hyperparameters));
-        // Initialise learnable parameters
-        if (this->layers[pos].has_params == true) {
-            this->layers[pos].params = InitialiseLearnableParameters(this->layers[pos].layer_t, this->layers[pos].hyperparameters, this->layers[this->layers[pos].input[0]].output->dims);
+    try {
+        for (int pos = 1; pos < this->layer_n; pos++) {
+            // Initialise output buffer
+            this->layers[pos].output = new Tensor(getDimsOfOutput(this->layers[this->layers[pos].input[0]].output->dims, this->layers[pos].layer_t, this->layers[pos].hyperparameters));
+            // Initialise delta buffer
+            this->layers[pos].delta = new Tensor(getDimsOfOutput(this->layers[this->layers[pos].input[0]].output->dims, this->layers[pos].layer_t, this->layers[pos].hyperparameters));
+            // Initialise learnable parameters
+            if (this->layers[pos].has_params == true) {
+                this->layers[pos].params = InitialiseLearnableParameters(this->layers[pos].layer_t, this->layers[pos].hyperparameters, this->layers[this->layers[pos].input[0]].output->dims);
+            }
         }
+    } catch (std::exception &e) {
+        std::cerr << "Error initialising network layer buffers\n";
+        throw;
     }
     
     return true;
@@ -279,26 +254,6 @@ float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, f
     return loss;
 }
 
-std::string ReturnLayerStr(Layers::Layer_T type) {
-    switch (type) {
-        case Layers::FullyConnected_T:
-            return "FC";
-            break;
-        
-        case Layers::Logistic_T:
-            return "LG";
-            break;
-            
-        case Layers::Bias_T:
-            return "B";
-            break;
-            
-        default:
-            throw "Unsupported Layer in Saving File";
-            break;
-    }
-}
-
 std::string ReturnVectorStr(std::vector<short> vec) {
     std::stringstream vec_str;
     for (int elem = 0; elem < vec.size(); elem++) {
@@ -317,12 +272,14 @@ std::string ReturnLossStr(Loss::Loss_T type) {
             break;
             
         default:
+            throw UnsupportedLossFunction("UNKNOWN");
             break;
     }
 }
 
 bool Graph::Save(std::string loc, Dims in, Dims out) {
-    std::string model_loc = loc;
+    // Only required for LoadFixed() in development
+    /*std::string model_loc = loc;
     model_loc.append("/model.struct");
     std::ofstream file(model_loc);
     std::stringstream buf;
@@ -335,9 +292,10 @@ bool Graph::Save(std::string loc, Dims in, Dims out) {
     buf << "<loss f=" << ReturnLossStr(this->loss_t) << ">\n";
     buf << "<out s=" << out.GetSizeStr(",") << ">\n";
     file << buf.str();
+    file.close();
+    */
     
     // Trigger save on each layer
-    
     for (int lay = 1; lay < this->layers.size(); lay++) {
         if (this->layers[lay].has_params) {
             this->layers[lay].SaveLearnableParameters(loc, lay);
@@ -345,15 +303,18 @@ bool Graph::Save(std::string loc, Dims in, Dims out) {
         }
     }
     
-    file.close();
-    
     return true;
 }
 
 bool Graph::LoadLayers(std::string loc) {
     for (int lay = 1; lay < this->layers.size(); lay++) {
         if (this->layers[lay].has_params) {
-            this->layers[lay].LoadLearnableParameters(loc, lay);
+            try {
+                this->layers[lay].LoadLearnableParameters(loc, lay);
+            } catch (...) {
+                std::cerr << "Error loading learnable parameters for layer " << lay << "\n";
+                std::cerr << "Reinitialising learnable parameters\n";
+            }
         }
     }
     return true;
@@ -371,7 +332,7 @@ void Graph::AddLoss(Loss::Loss_T loss_t) {
             break;
             
         default:
-            throw "Unsupported Loss";
+            throw UnsupportedLossFunction("UNKNOWN");
             break;
     }
 }

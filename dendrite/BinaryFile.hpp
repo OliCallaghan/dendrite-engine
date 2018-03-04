@@ -15,6 +15,7 @@
 #include <fstream>
 
 #include "Tensor.hpp"
+#include "Exceptions.hpp"
 
 class BinaryFileHandler {
     long end_pos;
@@ -38,6 +39,11 @@ namespace BinaryFileReader {
         // Read file and loop
         handler->Increment(sizeof(T) * bytes_n);
         T bytes[buffer->dims.Size()];
+        
+        if (sizeof(T) * buffer->dims.Size() < bytes_n) {
+            throw IncorrectReadSize(bytes_n / sizeof(T), buffer->dims.Size());
+        }
+        
         handler->file.read(reinterpret_cast<char*>(bytes), bytes_n);
         
         for (int i = 0; i < buffer->dims.Size(); i++) {

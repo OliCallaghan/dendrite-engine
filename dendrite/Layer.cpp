@@ -20,7 +20,7 @@ size_t Layer::GetSizeOfHyperparameters() {
             return 0;
             break;
         default:
-            throw "Unknown Layer";
+            throw UnsupportedLayerType("UNKNOWN");
             break;
     }
 }
@@ -53,7 +53,7 @@ Layer::Layer(Layers::Layer_T t, std::vector<short> i, std::vector<short> d, void
         case Layers::Layer_T::Input_T:
             break;
         default:
-            throw "Layer not implemented yet";
+            throw UnsupportedLayerType("UNKNOWN");
             break;
     }
 }
@@ -63,9 +63,29 @@ void Layer::LoadLearnableParameters(std::string location, short id) {
     std::stringstream full_location;
     full_location << location << "lparams/lp" << id << ".dat";
     
-    file.open(full_location.str(), std::ios::out | std::ios::binary);
-    
-    file.read((char*)(this->params->data), sizeof(float) * this->params->dims.Size());
+    try {
+        file.open(full_location.str(), std::ios::ate | std::ios::out | std::ios::binary);
+        if (file.fail()) {
+            std::cerr << "File does not exist\n";
+            throw;
+        }
+        
+        size_t len = file.tellg();
+        file.seekg(0);
+        
+        size_t size = this->params->dims.Size();
+        
+        if ((this->params->dims.Size() * sizeof(float)) != len) {
+            std::cerr << "Learnable params allocated size does not match file size\n";
+            throw;
+        }
+        
+        file.read((char*)this->params->data, sizeof(float) * this->params->dims.Size());
+        file.close();
+    } catch (...) {
+        file.close();
+        throw FailedLoadingLP(id, "UNKNOWN");
+    }
 }
 
 bool Layer::SaveLearnableParameters(std::string location, short id) {
@@ -73,15 +93,25 @@ bool Layer::SaveLearnableParameters(std::string location, short id) {
     std::stringstream full_location;
     full_location << location << "lparams/lp" << id << ".dat";
     
-    file.open(full_location.str(), std::ios::out | std::ios::binary);
-    file.seekp(0);
-    
-    // Output to File
-    file.write((char*)(this->params->data), sizeof(float) * this->params->dims.Size());
-    
-    file.close();
-    
-    return true;
+    try {
+        file.open(full_location.str(), std::ios::out | std::ios::binary | std::ofstream::trunc);
+        if (file.fail()) {
+            std::cerr << "Error opening file";
+            throw;
+        }
+        
+        file.seekp(0);
+        
+        // Output to File
+        file.write((char*)(this->params->data), sizeof(float) * this->params->dims.Size());
+        
+        file.close();
+        
+        return true;
+    } catch (...) {
+        file.close();
+        throw FailedSavingLP(id);
+    }
 }
 
 bool Layer::SaveHyperparameters(std::string location, short id) {
@@ -89,12 +119,22 @@ bool Layer::SaveHyperparameters(std::string location, short id) {
     std::stringstream full_location;
     full_location << location << "hparams/hp" << id << ".dat";
     
-    file.open(full_location.str(), std::ios::out | std::ios::binary);
-    file.seekp(0);
-    
-    file.write((char*)(this->hyperparameters), this->GetSizeOfHyperparameters());
-    
-    file.close();
-    
-    return true;
+    try {
+        file.open(full_location.str(), std::ios::out | std::ios::binary | std::ofstream::trunc);
+        if (file.fail()) {
+            std::cerr << "Error opening file";
+            throw;
+        }
+        
+        file.seekp(0);
+        
+        file.write((char*)(this->hyperparameters), this->GetSizeOfHyperparameters());
+        
+        file.close();
+        
+        return true;
+    } catch (...) {
+        file.close();
+        throw FailedSavingHP(id);
+    }
 }

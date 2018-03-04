@@ -17,6 +17,7 @@ Loss::LossFn::LossFn(Loss::Loss_T t) {
             break;
             
         default:
+            throw UnsupportedLossFunction("UNKNOWN");
             break;
     }
 }
