@@ -19,6 +19,11 @@
 		4F7FBD201FC777B600728E39 /* L2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FBD1E1FC777B600728E39 /* L2.cpp */; };
 		4F7FBD231FC8862300728E39 /* Pooling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FBD211FC8862300728E39 /* Pooling.cpp */; };
 		4F8BE9ED204C66540081E958 /* Command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BE9EB204C66540081E958 /* Command.cpp */; };
+		4F8BE9F02051A3300081E958 /* LinearUnit.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BE9EF2051A3300081E958 /* LinearUnit.cl */; };
+		4F8BE9F32051A5C00081E958 /* Softmax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BE9F12051A5C00081E958 /* Softmax.cpp */; };
+		4F8BE9F52051A7D10081E958 /* Softmax.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BE9F42051A7D10081E958 /* Softmax.cl */; };
+		4F8BE9F72051AE2E0081E958 /* Tangent.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BE9F62051AE2E0081E958 /* Tangent.cl */; };
+		4F8BE9F92051D6AC0081E958 /* Error.cl in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BE9F82051D6AC0081E958 /* Error.cl */; };
 		4F9225EA1FA24934009C1434 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225E91FA24934009C1434 /* main.cpp */; };
 		4F9225F51FA24D7E009C1434 /* Tensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F31FA24D7E009C1434 /* Tensor.cpp */; };
 		4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F81FA2520B009C1434 /* Network.cpp */; };
@@ -28,11 +33,8 @@
 		4F92260B1FA2546F009C1434 /* Dropout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226091FA2546F009C1434 /* Dropout.cpp */; };
 		4F9226111FA25491009C1434 /* Bias.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92260F1FA25491009C1434 /* Bias.cpp */; };
 		4F9226181FA254C8009C1434 /* Linear Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226161FA254C8009C1434 /* Linear Unit.cpp */; };
-		4F92261B1FA254D8009C1434 /* Binary Step.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226191FA254D8009C1434 /* Binary Step.cpp */; };
 		4F92261E1FA254EA009C1434 /* Logistic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92261C1FA254EA009C1434 /* Logistic.cpp */; };
 		4F9226211FA25503009C1434 /* Tangent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92261F1FA25503009C1434 /* Tangent.cpp */; };
-		4F9226241FA2552A009C1434 /* Softsign.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226221FA2552A009C1434 /* Softsign.cpp */; };
-		4F9226271FA25533009C1434 /* Softplus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226251FA25533009C1434 /* Softplus.cpp */; };
 		4F92262A1FA25746009C1434 /* Operation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226281FA25746009C1434 /* Operation.cpp */; };
 		4F92262E1FA25785009C1434 /* Graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F92262C1FA25785009C1434 /* Graph.cpp */; };
 		4F9226371FA35603009C1434 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9226351FA35603009C1434 /* Layer.cpp */; };
@@ -79,6 +81,12 @@
 		4F7FBD221FC8862300728E39 /* Pooling.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pooling.hpp; sourceTree = "<group>"; };
 		4F8BE9EB204C66540081E958 /* Command.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Command.cpp; sourceTree = "<group>"; };
 		4F8BE9EC204C66540081E958 /* Command.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Command.hpp; sourceTree = "<group>"; };
+		4F8BE9EF2051A3300081E958 /* LinearUnit.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = LinearUnit.cl; sourceTree = "<group>"; };
+		4F8BE9F12051A5C00081E958 /* Softmax.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Softmax.cpp; sourceTree = "<group>"; };
+		4F8BE9F22051A5C00081E958 /* Softmax.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Softmax.hpp; sourceTree = "<group>"; };
+		4F8BE9F42051A7D10081E958 /* Softmax.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = Softmax.cl; sourceTree = "<group>"; };
+		4F8BE9F62051AE2E0081E958 /* Tangent.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = Tangent.cl; sourceTree = "<group>"; };
+		4F8BE9F82051D6AC0081E958 /* Error.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = Error.cl; sourceTree = "<group>"; };
 		4F9225E61FA24934009C1434 /* dendrite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dendrite; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9225E91FA24934009C1434 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4F9225F31FA24D7E009C1434 /* Tensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tensor.cpp; sourceTree = "<group>"; };
@@ -97,16 +105,10 @@
 		4F9226101FA25491009C1434 /* Bias.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bias.hpp; sourceTree = "<group>"; };
 		4F9226161FA254C8009C1434 /* Linear Unit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "Linear Unit.cpp"; sourceTree = "<group>"; };
 		4F9226171FA254C8009C1434 /* Linear Unit.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "Linear Unit.hpp"; sourceTree = "<group>"; };
-		4F9226191FA254D8009C1434 /* Binary Step.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "Binary Step.cpp"; sourceTree = "<group>"; };
-		4F92261A1FA254D8009C1434 /* Binary Step.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = "Binary Step.hpp"; sourceTree = "<group>"; };
 		4F92261C1FA254EA009C1434 /* Logistic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logistic.cpp; sourceTree = "<group>"; };
 		4F92261D1FA254EA009C1434 /* Logistic.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logistic.hpp; sourceTree = "<group>"; };
 		4F92261F1FA25503009C1434 /* Tangent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tangent.cpp; sourceTree = "<group>"; };
 		4F9226201FA25503009C1434 /* Tangent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tangent.hpp; sourceTree = "<group>"; };
-		4F9226221FA2552A009C1434 /* Softsign.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Softsign.cpp; sourceTree = "<group>"; };
-		4F9226231FA2552A009C1434 /* Softsign.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Softsign.hpp; sourceTree = "<group>"; };
-		4F9226251FA25533009C1434 /* Softplus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Softplus.cpp; sourceTree = "<group>"; };
-		4F9226261FA25533009C1434 /* Softplus.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Softplus.hpp; sourceTree = "<group>"; };
 		4F9226281FA25746009C1434 /* Operation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Operation.cpp; sourceTree = "<group>"; };
 		4F9226291FA25746009C1434 /* Operation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Operation.hpp; sourceTree = "<group>"; };
 		4F92262C1FA25785009C1434 /* Graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graph.cpp; sourceTree = "<group>"; };
@@ -267,16 +269,12 @@
 		4F9226151FA254A9009C1434 /* Activation Functions */ = {
 			isa = PBXGroup;
 			children = (
-				4F9226191FA254D8009C1434 /* Binary Step.cpp */,
-				4F92261A1FA254D8009C1434 /* Binary Step.hpp */,
 				4F9226161FA254C8009C1434 /* Linear Unit.cpp */,
 				4F9226171FA254C8009C1434 /* Linear Unit.hpp */,
 				4F92261C1FA254EA009C1434 /* Logistic.cpp */,
 				4F92261D1FA254EA009C1434 /* Logistic.hpp */,
-				4F9226251FA25533009C1434 /* Softplus.cpp */,
-				4F9226261FA25533009C1434 /* Softplus.hpp */,
-				4F9226221FA2552A009C1434 /* Softsign.cpp */,
-				4F9226231FA2552A009C1434 /* Softsign.hpp */,
+				4F8BE9F12051A5C00081E958 /* Softmax.cpp */,
+				4F8BE9F22051A5C00081E958 /* Softmax.hpp */,
 				4F92261F1FA25503009C1434 /* Tangent.cpp */,
 				4F9226201FA25503009C1434 /* Tangent.hpp */,
 			);
@@ -324,6 +322,10 @@
 				4F44FEE51FCC127500FEFAD3 /* L2.cl */,
 				4F12ECD31FFF849E00EE9ABC /* Logistic.cl */,
 				4F0A763F2010E21100042D19 /* Conv.cl */,
+				4F8BE9EF2051A3300081E958 /* LinearUnit.cl */,
+				4F8BE9F42051A7D10081E958 /* Softmax.cl */,
+				4F8BE9F62051AE2E0081E958 /* Tangent.cl */,
+				4F8BE9F82051D6AC0081E958 /* Error.cl */,
 			);
 			name = Algorithms;
 			sourceTree = "<group>";
@@ -401,13 +403,12 @@
 				4F92260B1FA2546F009C1434 /* Dropout.cpp in Sources */,
 				4F21300B201F1E4D00500287 /* BinaryFile.cpp in Sources */,
 				4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */,
+				4F8BE9F92051D6AC0081E958 /* Error.cl in Sources */,
 				4F7FBD231FC8862300728E39 /* Pooling.cpp in Sources */,
 				4F9226021FA25360009C1434 /* FullyConnected.cpp in Sources */,
-				4F9226241FA2552A009C1434 /* Softsign.cpp in Sources */,
 				4F9226181FA254C8009C1434 /* Linear Unit.cpp in Sources */,
 				4FEE4DD91FB9C0E7005D7F5A /* MatrixMultiply.cl in Sources */,
 				4F1D6B5A1FE05C2000D4844B /* LayerLoader.cpp in Sources */,
-				4F92261B1FA254D8009C1434 /* Binary Step.cpp in Sources */,
 				4F9226111FA25491009C1434 /* Bias.cpp in Sources */,
 				4FC992171FA6648900266EE0 /* LearnableParameters.cpp in Sources */,
 				4FB15FAB2049A06800A5D4A0 /* Exceptions.cpp in Sources */,
@@ -420,14 +421,17 @@
 				4F9225EA1FA24934009C1434 /* main.cpp in Sources */,
 				4F7FBD201FC777B600728E39 /* L2.cpp in Sources */,
 				4F9226081FA25462009C1434 /* BatchNormalisation.cpp in Sources */,
-				4F9226271FA25533009C1434 /* Softplus.cpp in Sources */,
 				4F44FEED1FCC1ABD00FEFAD3 /* LossFn.cpp in Sources */,
 				4F12ECD41FFF849E00EE9ABC /* Logistic.cl in Sources */,
 				4FBDB684202C4DAD00EEC484 /* HyperparamsHandler.cpp in Sources */,
+				4F8BE9F72051AE2E0081E958 /* Tangent.cl in Sources */,
+				4F8BE9F02051A3300081E958 /* LinearUnit.cl in Sources */,
 				4F0A76402010E21100042D19 /* Conv.cl in Sources */,
+				4F8BE9F32051A5C00081E958 /* Softmax.cpp in Sources */,
 				4F9226051FA25371009C1434 /* Convolution.cpp in Sources */,
 				4FA30E1E1FB0663C0035373F /* ElementWiseAdd.cl in Sources */,
 				4F9226371FA35603009C1434 /* Layer.cpp in Sources */,
+				4F8BE9F52051A7D10081E958 /* Softmax.cl in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

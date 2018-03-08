@@ -51,6 +51,8 @@ void Train(std::string loc, float eta, float decay, int it_decay, int it, int it
                         throw NaNException();
                     }
                     n.Evaluate();
+                    std::cout << n.output->GetDataStr();
+                    std::cout << n.prediction->GetDataStr();
                     std::cout << "ITERATION " << loop << ": " << (loss / it_rtrn) << std::endl;
                     loss = 0;
                 }

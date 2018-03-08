@@ -20,6 +20,15 @@ std::string ReturnLayerStr(Layers::Layer_T type) {
         case Layers::Logistic_T:
             return "LOG";
             break;
+        case Layers::ReLU_T:
+            return "ReLU";
+            break;
+        case Layers::Softmax_T:
+            return "SOFTMAX";
+            break;
+        case Layers::Tangent_T:
+            return "TAN";
+            break;
         case Layers::Bias_T:
             return "B";
             break;
@@ -38,6 +47,9 @@ Dims getDimsOfOutput(Dims input, Layers::Layer_T layer_t, void* hyperparameters)
             return Layers::Bias::CalcOutputSize(input);
             break;
         case Layers::Logistic_T:
+        case Layers::ReLU_T:
+        case Layers::Softmax_T:
+        case Layers::Tangent_T:
             return Layers::Logistic::CalcOutputSize(input);
             break;
         default:
@@ -63,11 +75,12 @@ LearnableParameters* InitialiseLearnableParameters(Layers::Layer_T layer_t, void
 bool HasHyperparameters(Layers::Layer_T t) {
     switch (t) {
         case Layers::Layer_T::Logistic_T:
+        case Layers::Layer_T::ReLU_T:
+        case Layers::Layer_T::Softmax_T:
+        case Layers::Layer_T::Tangent_T:
             return false;
             break;
         case Layers::Layer_T::FullyConnected_T:
-            return true;
-            break;
         case Layers::Layer_T::Bias_T:
             return true;
             break;

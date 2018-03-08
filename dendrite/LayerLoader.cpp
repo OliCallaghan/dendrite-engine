@@ -16,6 +16,12 @@ Layers::Layer_T DetermineLayer(std::string t) {
         return Layers::Layer_T::Logistic_T;
     } else if (t == "B") {
         return Layers::Layer_T::Bias_T;
+    } else if (t == "SOFTMAX") {
+        return Layers::Layer_T::Softmax_T;
+    } else if (t == "ReLU") {
+        return Layers::Layer_T::ReLU_T;
+    } else if (t == "TAN") {
+        return Layers::Layer_T::Tangent_T;
     } else {
         throw UnsupportedLayerType(t);
     }

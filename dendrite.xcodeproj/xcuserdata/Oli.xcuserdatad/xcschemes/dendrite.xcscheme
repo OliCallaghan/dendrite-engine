@@ -71,7 +71,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Oli/Desktop/Networks/1/"
+            argument = "/Users/Oli/Desktop/Networks/1\ Backup/"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -83,7 +83,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "0.00001"
+            argument = "0.05"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -95,7 +95,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "1000"
+            argument = "10000"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -103,7 +103,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "10000"
+            argument = "100000"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

@@ -17,6 +17,9 @@ size_t Layer::GetSizeOfHyperparameters() {
             return sizeof(Layers::Bias::Hyperparameters);
             break;
         case Layers::Layer_T::Logistic_T:
+        case Layers::Layer_T::ReLU_T:
+        case Layers::Layer_T::Softmax_T:
+        case Layers::Layer_T::Tangent_T:
             return 0;
             break;
         default:
@@ -50,6 +53,25 @@ Layer::Layer(Layers::Layer_T t, std::vector<short> i, std::vector<short> d, void
             this->BackpropDeltasFunc = Layers::Logistic::Backprop;
             this->CalcParamDeltasFunc = Layers::Logistic::UpdateWeights;
             this->has_params = false;
+            break;
+        case Layers::Layer_T::ReLU_T:
+            this->ForwardFunc = Layers::ReLU::Forward;
+            this->BackpropDeltasFunc = Layers::ReLU::Backprop;
+            this->CalcParamDeltasFunc = Layers::ReLU::UpdateWeights;
+            this->has_params = false;
+            break;
+        case Layers::Layer_T::Softmax_T:
+            this->ForwardFunc = Layers::Softmax::Forward;
+            this->BackpropDeltasFunc = Layers::Softmax::Backprop;
+            this->CalcParamDeltasFunc = Layers::Softmax::UpdateWeights;
+            this->has_params = false;
+            break;
+        case Layers::Layer_T::Tangent_T:
+            this->ForwardFunc = Layers::Tanh::Forward;
+            this->BackpropDeltasFunc = Layers::Tanh::Backprop;
+            this->CalcParamDeltasFunc = Layers::Tanh::UpdateWeights;
+            this->has_params = false;
+            break;
         case Layers::Layer_T::Input_T:
             break;
         default:
