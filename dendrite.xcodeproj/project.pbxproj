@@ -18,6 +18,7 @@
 		4F44FEED1FCC1ABD00FEFAD3 /* LossFn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F44FEEB1FCC1ABD00FEFAD3 /* LossFn.cpp */; };
 		4F7FBD201FC777B600728E39 /* L2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FBD1E1FC777B600728E39 /* L2.cpp */; };
 		4F7FBD231FC8862300728E39 /* Pooling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F7FBD211FC8862300728E39 /* Pooling.cpp */; };
+		4F8BE9ED204C66540081E958 /* Command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BE9EB204C66540081E958 /* Command.cpp */; };
 		4F9225EA1FA24934009C1434 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225E91FA24934009C1434 /* main.cpp */; };
 		4F9225F51FA24D7E009C1434 /* Tensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F31FA24D7E009C1434 /* Tensor.cpp */; };
 		4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4F9225F81FA2520B009C1434 /* Network.cpp */; };
@@ -76,6 +77,8 @@
 		4F7FBD1F1FC777B600728E39 /* L2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = L2.hpp; sourceTree = "<group>"; };
 		4F7FBD211FC8862300728E39 /* Pooling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pooling.cpp; sourceTree = "<group>"; };
 		4F7FBD221FC8862300728E39 /* Pooling.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pooling.hpp; sourceTree = "<group>"; };
+		4F8BE9EB204C66540081E958 /* Command.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Command.cpp; sourceTree = "<group>"; };
+		4F8BE9EC204C66540081E958 /* Command.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Command.hpp; sourceTree = "<group>"; };
 		4F9225E61FA24934009C1434 /* dendrite */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dendrite; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9225E91FA24934009C1434 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4F9225F31FA24D7E009C1434 /* Tensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tensor.cpp; sourceTree = "<group>"; };
@@ -176,6 +179,15 @@
 			name = Loss;
 			sourceTree = "<group>";
 		};
+		4F8BE9EE204C66580081E958 /* Command */ = {
+			isa = PBXGroup;
+			children = (
+				4F8BE9EB204C66540081E958 /* Command.cpp */,
+				4F8BE9EC204C66540081E958 /* Command.hpp */,
+			);
+			name = Command;
+			sourceTree = "<group>";
+		};
 		4F9225DD1FA24934009C1434 = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +212,7 @@
 				4F9225F71FA251E9009C1434 /* Network */,
 				4F9225F61FA251D2009C1434 /* Tensor */,
 				4FB15FA620499DA600A5D4A0 /* Exceptions */,
+				4F8BE9EE204C66580081E958 /* Command */,
 			);
 			path = dendrite;
 			sourceTree = "<group>";
@@ -384,6 +397,7 @@
 				4F44FEE61FCC127500FEFAD3 /* L2.cl in Sources */,
 				4F9225F51FA24D7E009C1434 /* Tensor.cpp in Sources */,
 				4F9226211FA25503009C1434 /* Tangent.cpp in Sources */,
+				4F8BE9ED204C66540081E958 /* Command.cpp in Sources */,
 				4F92260B1FA2546F009C1434 /* Dropout.cpp in Sources */,
 				4F21300B201F1E4D00500287 /* BinaryFile.cpp in Sources */,
 				4F9225FA1FA2520B009C1434 /* Network.cpp in Sources */,

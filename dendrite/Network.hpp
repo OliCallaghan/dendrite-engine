@@ -36,6 +36,15 @@ public:
     void Evaluate();
     bool Classify(float);
     
+    // Get Layer Dims (index)
+    Dims GetLayerDims(int);
+    
+    // Get Layer Data (index)
+    Tensor* GetLayerData(int);
+    
+    // Get Layer Params (index)
+    Tensor* GetLayerParams(int);
+    
     Network(Tensor* input, Tensor* prediction, Tensor* output); // Initialise empty network
     Network(std::string);
     bool Validate();

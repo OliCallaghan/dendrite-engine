@@ -190,3 +190,7 @@ TensorDimsErr::TensorDimsErr(std::string dims_str) {
 const char* TensorDimsErr::what() const throw() {
     return this->err_msg.c_str();
 }
+
+const char* NaNException::what() const throw() {
+    return "Loss tended to infinity, producing NaN error (lower ETA).";
+}

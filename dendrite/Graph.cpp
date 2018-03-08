@@ -336,3 +336,25 @@ void Graph::AddLoss(Loss::Loss_T loss_t) {
             break;
     }
 }
+
+Tensor* Graph::GetLayer(int index, Tensor* prediction) {
+    if ((index < this->layer_n) && (index >= 0)) {
+        return this->layers[index].output;
+    } else if (index == this->layer_n) {
+        return prediction;
+    } else {
+        throw GraphStructureError("Layer does not exist");
+    }
+}
+
+Tensor* Graph::GetLayerParams(int index) {
+    if ((index > 0) && (index < this->layer_n)) {
+        if (this->layers[index].has_params == true) {
+            return this->layers[index].params;
+        } else {
+            throw GraphStructureError("Layer does not exist");
+        }
+    } else {
+        throw GraphStructureError("Layer does not exist");
+    }
+}

@@ -109,3 +109,15 @@ bool Network::SaveNetwork(std::string loc) {
     this->g->Save(loc, this->input->dims, this->prediction->dims);
     return true;
 }
+
+Tensor* Network::GetLayerData(int index) {
+    return this->g->GetLayer(index, this->prediction);
+}
+
+Tensor* Network::GetLayerParams(int index) {
+    return this->g->GetLayerParams(index);
+}
+
+Dims Network::GetLayerDims(int index) {
+    return this->g->GetLayer(index, this->prediction)->dims;
+}

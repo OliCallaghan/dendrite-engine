@@ -38,6 +38,10 @@ public:
     float Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, float eta);
     
     Dims GetOutputSize();
+    
+    // Get Layer (index)
+    Tensor* GetLayer(int, Tensor*);
+    Tensor* GetLayerParams(int);
 };
 
 #endif /* Graph_hpp */

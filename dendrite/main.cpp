@@ -7,11 +7,28 @@
 //
 
 #include <iostream>
+#include <thread>
+#include <atomic>
 #include "Exceptions.hpp"
 #include "Tensor.hpp"
 #include "Network.hpp"
 #include "MNIST.hpp"
 #include "HyperparamsHandler.hpp"
+#include "Command.hpp"
+
+void GetCommand(std::atomic<Commands::Command> &cmd, std::atomic<bool> &get) {
+    std::string cmd_str;
+    while (get.load()) {
+        std::cin >> cmd_str;
+        
+        try {
+            Commands::Command cmd_tmp = Commands::MatchCommand(cmd_str);
+            cmd.store(cmd_tmp);
+        } catch (std::exception &e) {
+            std::cout << e.what() << std::endl;
+        }
+    }
+}
 
 // Train :: model_location, learning_rate, learning_rate_decay_factor, iterations_to_decay, iterations_to_return_update, iterations_to_save_parameters
 void Train(std::string loc, float eta, float decay, int it_decay, int it, int it_rtrn, int it_save) {
@@ -19,26 +36,75 @@ void Train(std::string loc, float eta, float decay, int it_decay, int it, int it
     n.LearningRate = eta;
     
     float loss = 0;
+    std::atomic<bool> get(true);
+    std::atomic<Commands::Command> cmd(Commands::Command(Commands::Command_T::None, NULL));
+    std::thread cmdInThread(GetCommand, std::ref(cmd), std::ref(get));
     
-    for (int loop = 1; loop <= it; loop++) {
-        loss += n.Learn();
-        if (loop % it_rtrn == 0) {
-            n.Evaluate();
+    int loop = 1;
+    bool train = true;
+    try {
+        while (loop <= it) {
+            if (train) {
+                loss += n.Learn();
+                if (loop % it_rtrn == 0) {
+                    if (isnan(loss) || isinf(loss)) {
+                        throw NaNException();
+                    }
+                    n.Evaluate();
+                    std::cout << "ITERATION " << loop << ": " << (loss / it_rtrn) << std::endl;
+                    loss = 0;
+                }
+                
+                if (loop % it_decay == 0) {
+                    n.LearningRate = n.LearningRate * decay;
+                }
+                
+                if (loop % it_save == 0) {
+                    n.SaveNetwork(loc);
+                }
+                
+                loop++;
+            }
             
-            std::cout << "ITERATION " << loop << ": " << (loss / it_rtrn) << std::endl;
-            loss = 0;
+            if ((cmd.load()).t != Commands::Command_T::None) {
+                Commands::Command cmd_cpy = cmd.load();
+                try {
+                    switch (cmd_cpy.t) {
+                        case Commands::Command_T::GetLayerDims:
+                            // Get layer dims
+                            std::cout << "DIMS: [ " << n.GetLayerDims(cmd_cpy.p).GetSizeStr() << " ]" << std::endl;
+                            break;
+                        case Commands::Command_T::GetLayerData:
+                            std::cout << "DATA: " << n.GetLayerData(cmd_cpy.p)->GetDataStr() << std::endl;
+                            break;
+                        case Commands::Command_T::GetLayerParams:
+                            std::cout << "PARAMS: " << n.GetLayerParams(cmd_cpy.p)->GetDataStr() << std::endl;
+                            break;
+                        case Commands::Command_T::Pause:
+                            train = false;
+                            break;
+                        case Commands::Command_T::Resume:
+                            train = true;
+                            break;
+                        default:
+                            throw UnknownMode("UNKNOWN", "DIMS, DATA, PAUSE, RESUME");
+                            break;
+                    }
+                } catch (std::exception &e) {
+                    std::cerr << e.what();
+                }
+                cmd.store(Commands::Command(Commands::Command_T::None, NULL));
+            }
         }
         
-        if (loop % it_decay == 0) {
-            n.LearningRate = n.LearningRate * decay;
-        }
+        get.store(false);
         
-        if (loop % it_save == 0) {
-            n.SaveNetwork(loc);
-        }
+        n.SaveNetwork(loc);
+        exit(0);
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        exit(SIGTERM);
     }
-    
-    n.SaveNetwork(loc);
 }
 
 void Run(std::string loc, int it, float loss_threshold) {
@@ -46,6 +112,9 @@ void Run(std::string loc, int it, float loss_threshold) {
     
     float success = 0;
     for (int loop = 0; loop < it; loop++) {
+        if (loop % 25 == 0) {
+            std::cout << ((100 * loop) / it) << "% COMPLETE" << std::endl;
+        }
         n.Evaluate();
         if (n.Classify(loss_threshold)) {
             success += 1;
@@ -53,7 +122,7 @@ void Run(std::string loc, int it, float loss_threshold) {
     }
     success = success / it;
     
-    std::cout << "ACCURACY: " << success * 100 << "%\n";
+    std::cout << "ACCURACY: " << success * 100 << "%" << std::endl;
 }
 
 void TestPipeline(std::string location, std::string dims_str) {
@@ -87,7 +156,7 @@ int main(int argc, const char * argv[]) {
             if (strcmp(argv[1], "run") == 0) {
                 // dendrite run
                 // dendrite run /path/to/save ITERATIONS (LOSS_THRESHOLD)
-                std::cout << "CALCULATING ACCURACY\n";
+                std::cout << "CALCULATING ACCURACY" << std::endl;
                 if (argc == 4) {
                     Run(argv[2], atoi(argv[3]), 0.1);
                 } else if (argc == 5) {
@@ -98,7 +167,7 @@ int main(int argc, const char * argv[]) {
             } else if (strcmp(argv[1], "hp_gen") == 0) {
                 // Generate Hyperparameters
                 // dendrite hp_gen /path/to/save PARAMS
-                std::cout << "GENERATING HYPERPARAMETERS\n";
+                std::cout << "GENERATING HYPERPARAMETERS" << std::endl;
                 if (argc == 4) {
                     HyperparamsHandler handler(argv[2]);
                     handler.Save(argv[3]);

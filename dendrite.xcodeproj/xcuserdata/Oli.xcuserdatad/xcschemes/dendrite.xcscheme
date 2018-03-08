@@ -83,7 +83,7 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "0.01"
+            argument = "0.00001"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -91,15 +91,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "100"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "400000"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "100"
+            argument = "1000"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -107,11 +99,23 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "100"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "10000"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "run"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Oli/Desktop/Network_Save/"
+            argument = "/Users/Oli/Desktop/Networks/1/"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "1000"
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument

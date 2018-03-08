@@ -67,24 +67,25 @@ void Layer::LoadLearnableParameters(std::string location, short id) {
         file.open(full_location.str(), std::ios::ate | std::ios::out | std::ios::binary);
         if (file.fail()) {
             std::cerr << "File does not exist\n";
-            throw;
+            throw FailedLoadingLP(id, "UNKNOWN");
         }
         
         size_t len = file.tellg();
         file.seekg(0);
         
-        size_t size = this->params->dims.Size();
-        
         if ((this->params->dims.Size() * sizeof(float)) != len) {
             std::cerr << "Learnable params allocated size does not match file size\n";
-            throw;
+            throw FailedLoadingLP(id, "UNKNOWN");
         }
         
         file.read((char*)this->params->data, sizeof(float) * this->params->dims.Size());
         file.close();
-    } catch (...) {
+    } catch (FailedLoadingLP& e) {
+        std::cout << this->params->dims.GetSizeStr() << "\n";
+        
         file.close();
-        throw FailedLoadingLP(id, "UNKNOWN");
+        std::cerr << e.what();
+        //throw FailedLoadingLP(id, "UNKNOWN");
     }
 }
 

@@ -43,6 +43,12 @@ public:
     virtual const char* what() const throw();
 };
 
+// NaN Exception
+class NaNException: public std::exception {
+public:
+    virtual const char* what() const throw();
+};
+
 // Zero Size Dims Error
 class TensorDimsErr: public std::exception {
     std::string err_msg;
