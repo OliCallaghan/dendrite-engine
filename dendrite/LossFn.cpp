@@ -8,8 +8,10 @@
 
 #include "LossFn.hpp"
 
+// Constructor
 Loss::LossFn::LossFn(Loss::Loss_T t) {
     this->loss_t = t;
+    // Sets the methdos for the Loss Function object
     switch (t) {
         case Loss::Loss_T::L2_T:
             this->Loss = Loss::L2::Loss;

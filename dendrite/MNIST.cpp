@@ -36,6 +36,7 @@ void MNISTHandler::LoadData(Tensor* input, Tensor* label) {
         f_img.seekg(this->pos_i);
         f_lab.seekg(this->pos_l);
     }
+    // Read image data (784 pixels from 0-256)
     char buffer[784];
     f_img.read(buffer,784);
     for (int i = 0; i < 784; i++) {
@@ -45,6 +46,7 @@ void MNISTHandler::LoadData(Tensor* input, Tensor* label) {
     this->pos_i += 784;
     this->pos_l += 1;
     
+    // Read label data (0-9)
     char l_buf[1];
     f_lab.read(l_buf,1);
     for (int i = 0; i < 10; i++) {
@@ -54,6 +56,7 @@ void MNISTHandler::LoadData(Tensor* input, Tensor* label) {
 }
 
 int MNISTHandler::Classify(Tensor* prediction) {
+    // Classify whether output matches the input
     float max = 0;
     int classify = 0;
     for (int pos = 0; pos < prediction->dims.SizePerEx(); pos++) {

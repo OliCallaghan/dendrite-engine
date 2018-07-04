@@ -14,14 +14,18 @@
 #include <regex>
 
 namespace Commands {
+    // Command type
     enum Command_T {
         GetLayerDims, GetLayerData, GetLayerParams, Pause, Resume, None
     };
+    
+    // Command object
     struct Command {
         Command_T t;
         int p;
         Command(Command_T, int);
     };
+    // Intepret command
     Command MatchCommand(std::string);
 }
 

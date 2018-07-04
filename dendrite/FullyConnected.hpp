@@ -15,16 +15,16 @@
 #include "LearnableParameters.hpp"
 #include <OpenCL/opencl.h>
 
+// Fully connected layer methods
 namespace Layers {
     namespace FullyConnected {
         void Forward(Tensor** input, Tensor* output, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue);
         void Backprop(Tensor** err, Tensor* backprop_err, Tensor* inp, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue);
         void UpdateWeights(Tensor* deriv, Tensor* input, LearnableParameters* learnable_params, void* params, float eta, dispatch_queue_t* queue);
         struct Hyperparameters {
-            int Nodes;
-            // Weight Params
-            float mean;
-            float stddev;
+            int Nodes; // Nodes in the layer
+            float mean; // Mean of normally distributed weights
+            float stddev; // Standard deviation of normally distributed weights
             Hyperparameters(int, float, float);
             Hyperparameters(int);
         };

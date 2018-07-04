@@ -16,7 +16,6 @@ class LearnableParameters: public Tensor {
 public:
     using Tensor::Tensor;
     void InitialiseNormal(float mean, float stddev);
-    void Update(Tensor);
 };
 
 #endif /* LearnableParameters_hpp */

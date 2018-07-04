@@ -15,6 +15,7 @@
 #include <iostream>
 #include "Tensor.hpp"
 
+// MNIST handler (used in development prior to implementations of data pipelines)
 class MNISTHandler {
     long pos_i;
     long pos_l;

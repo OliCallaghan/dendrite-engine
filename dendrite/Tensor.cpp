@@ -13,6 +13,7 @@
 #include <functional>
 #include "Tensor.hpp"
 
+// Dimensions construction (from array)
 Dims::Dims(std::vector<int> d) {
     // Removes invalid dimensions.
     this->dims = new int[4];
@@ -30,6 +31,7 @@ Dims::Dims(std::vector<int> d) {
     }
 }
 
+// Outputs size of dimensions
 int Dims::Size() const {
     return this->dims[0] * this->dims[1] * this->dims[2] * this->dims[3];
 }
@@ -38,6 +40,7 @@ int Dims::SizePerEx() {
     return this->dims[0] * this->dims[1] * this->dims[2];
 }
 
+// Returns size of dimensions in user friendly view
 std::string Dims::GetSizeStr() {
     std::string str;
     for (int dim = 0; dim < 4; dim++) {
@@ -47,6 +50,7 @@ std::string Dims::GetSizeStr() {
     return str;
 }
 
+// Returns size of dimensions in user friendly view
 std::string Dims::GetSizeStr(std::string delimiter) {
     std::string str;
     for (int dim = 0; dim < 4; dim++) {
@@ -57,6 +61,7 @@ std::string Dims::GetSizeStr(std::string delimiter) {
     return str;
 }
 
+// Initialise tensor with given dimensions
 Tensor::Tensor(Dims d) : dims(d) {
     // size = product of all 4 dimensions
     if (d.Size() <= 0) {
@@ -68,6 +73,7 @@ Tensor::Tensor(Dims d) : dims(d) {
     this->data = (float*)malloc(size);
 }
 
+// Initialise tensor with array dimenisons
 Tensor::Tensor(std::vector<int> d) : dims(d) {
     // size = product of all 4 dimensions
     size_t size = this->dims.Size() * sizeof(float);
@@ -75,6 +81,7 @@ Tensor::Tensor(std::vector<int> d) : dims(d) {
     this->data = (float*)malloc(size);
 }
 
+// Returns tensor data as string in user friendly manner (used for debugging)
 std::string Tensor::GetDataStr() const {
     std::string str;
     str.append("[ ");
@@ -86,6 +93,8 @@ std::string Tensor::GetDataStr() const {
     return str;
 }
 
+// Returns tensor data for MNIST data (used for debugging)
+// Much easier to understand in the console and interpret, rather than list of numbers, so used during development
 std::string Tensor::GetMNISTDataStr() {
     std::string str;
     for (int pos = 0; pos < this->dims.Size(); pos++) {
@@ -99,8 +108,4 @@ std::string Tensor::GetMNISTDataStr() {
         }
     }
     return str;
-}
-
-void Tensor::LoadData(float* data) {
-    this->data = data;
 }

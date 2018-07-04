@@ -35,7 +35,7 @@ kernel void CalculateWeightDerivatives(global float* er, global float* inp, glob
 
 kernel void UpdateWeights(global float* deriv, global float* wei, float eta) {
     size_t weight_index = get_global_id(0);
-    if (isnan(deriv[weight_index])) {
+    if (!isnan(deriv[weight_index])) {
         wei[weight_index] = wei[weight_index] - eta * deriv[weight_index];
     }
 }

@@ -12,6 +12,7 @@
 #include "Exceptions.hpp"
 #include <string>
 
+// Convert layer type to layer type string
 std::string ReturnLayerStr(Layers::Layer_T type) {
     switch (type) {
         case Layers::FullyConnected_T:
@@ -38,6 +39,7 @@ std::string ReturnLayerStr(Layers::Layer_T type) {
     }
 }
 
+// Get dimensions of output given hyperparameters and layer input tensor dimensions
 Dims getDimsOfOutput(Dims input, Layers::Layer_T layer_t, void* hyperparameters) {
     switch (layer_t) {
         case Layers::FullyConnected_T:
@@ -58,6 +60,7 @@ Dims getDimsOfOutput(Dims input, Layers::Layer_T layer_t, void* hyperparameters)
     }
 }
 
+// Initialise layer learnable parameters
 LearnableParameters* InitialiseLearnableParameters(Layers::Layer_T layer_t, void* hyperparameters, Dims dims) {
     switch (layer_t) {
         case Layers::FullyConnected_T:
@@ -72,6 +75,7 @@ LearnableParameters* InitialiseLearnableParameters(Layers::Layer_T layer_t, void
     }
 }
 
+// Returns whether layer should have hyperparameters to load
 bool HasHyperparameters(Layers::Layer_T t) {
     switch (t) {
         case Layers::Layer_T::Logistic_T:
@@ -90,6 +94,8 @@ bool HasHyperparameters(Layers::Layer_T t) {
     }
 }
 
+// Loads fixed network, and was used extensively during developemnt.
+// Not is not used by the engine, and serves no purpose other than in debugging.
 bool Graph::LoadFixed() {
     std::vector<short> i0 = {NULL};
     std::vector<short> d0 = {1};
@@ -160,6 +166,7 @@ void* ExtractHyperparameters(std::string loc, short id, Layers::Layer_T type) {
                 break;
         }
         
+        // Read hyperparameters
         void* hp = malloc(size);
         hyperparameters_f.read((char*)hp, size);
         
@@ -172,11 +179,14 @@ void* ExtractHyperparameters(std::string loc, short id, Layers::Layer_T type) {
     }
 }
 
+// Insert layer to graph
 bool Graph::InsertLayer(std::string loc, Layers::Layer_T type, short id, std::vector<short> inputs, std::vector<short> dependents) {
     void* hp = NULL;
+    // Load layer hyperparameters
     if (HasHyperparameters(type)) {
         hp = ExtractHyperparameters(loc, id, type);
     }
+    // Add layer to layer list
     this->layers.push_back(*new Layer(type, inputs, dependents, hp));
     this->layers[this->layers.size() - 1];
     
@@ -185,6 +195,7 @@ bool Graph::InsertLayer(std::string loc, Layers::Layer_T type, short id, std::ve
     return true;
 }
 
+// Add input layer to graph
 bool Graph::InsertInput(Tensor* input) {
     // Next layer will always be a dependent of INPUT
     this->layers.push_back(*new Layer(Layers::Layer_T::Input_T, {NULL}, {1}, NULL));
@@ -192,6 +203,7 @@ bool Graph::InsertInput(Tensor* input) {
     return true;
 }
 
+// Initialse buffers and weights for all layers
 bool Graph::InitialiseLayers(Tensor* input) {
     // Check that layer 0 is input
     if (this->layers[0].layer_t != Layers::Layer_T::Input_T) {
@@ -219,6 +231,7 @@ bool Graph::InitialiseLayers(Tensor* input) {
     return true;
 }
 
+// Execute the network to evaluate the output
 void Graph::Evaluate(Tensor* input, Tensor* output, dispatch_queue_t* queue) {
     for (size_t pos = 1; pos < this->layer_n; pos++) {
         // Iterate over every layer
@@ -226,12 +239,14 @@ void Graph::Evaluate(Tensor* input, Tensor* output, dispatch_queue_t* queue) {
         for (int inp = 0; inp < this->layers[pos].input.size(); inp++) {
             inputs[inp] = this->layers[this->layers[pos].input[inp]].output;
         }
+        // Perform forwards propagation of data through the layer
         this->layers[pos].ForwardFunc(inputs, this->layers[pos].output, this->layers[pos].params, this->layers[pos].hyperparameters, queue);
     }
-    
+    // Output the layer output of the final layer
     output->data = this->layers[this->layer_n - 1].output->data;
 }
 
+// Perform single training iteration
 float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, float eta) {
     for (size_t pos = 1; pos < this->layer_n; pos++) {
         // Iterate over every layer
@@ -239,6 +254,7 @@ float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, f
         for (int inp = 0; inp < this->layers[pos].input.size(); inp++) {
             inputs[inp] = this->layers[this->layers[pos].input[inp]].output;
         }
+        // Perform forwards propagation of data through the layer
         this->layers[pos].ForwardFunc(inputs, this->layers[pos].output, this->layers[pos].params, this->layers[pos].hyperparameters, queue);
     }
     
@@ -249,8 +265,9 @@ float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, f
         // Collect array of dependents
         Tensor* dependents[this->layers[pos - 1].dependents.size()];
         
+        // Collect layer dependents
         for (int dpt = 0; dpt < this->layers[pos - 1].dependents.size(); dpt++) {
-            dependents[dpt] = this->layers[this->layers[pos].dependents[dpt]].delta;
+            dependents[dpt] = this->layers[this->layers[pos - 1].dependents[dpt]].delta;
         }
         
         // Backpropagate the error
@@ -260,13 +277,16 @@ float Graph::Learn(Tensor* input, Tensor* prediction, dispatch_queue_t* queue, f
         this->layers[pos].CalcParamDeltasFunc(this->layers[pos].delta, this->layers[this->layers[pos].input[0]].output, this->layers[pos].params, this->layers[pos].hyperparameters, eta, queue);
     }
     
+    // Update weights for final layer
     this->layers[1].CalcParamDeltasFunc(this->layers[1].delta, this->layers[this->layers[1].input[0]].output, this->layers[1].params, this->layers[1].hyperparameters, eta, queue);
     
+    // Calcualte the actual numerical loss of the network
     float loss = this->loss_fn->Loss_Val(this->layers[this->layer_n - 1].output, prediction, queue);
     
     return loss;
 }
 
+// Join all elements in array with delimiter
 std::string ReturnVectorStr(std::vector<short> vec) {
     std::stringstream vec_str;
     for (int elem = 0; elem < vec.size(); elem++) {
@@ -278,6 +298,7 @@ std::string ReturnVectorStr(std::vector<short> vec) {
     return vec_str_final;
 }
 
+// Reutrn loss string
 std::string ReturnLossStr(Loss::Loss_T type) {
     switch (type) {
         case Loss::L2_T:
@@ -291,34 +312,18 @@ std::string ReturnLossStr(Loss::Loss_T type) {
 }
 
 bool Graph::Save(std::string loc, Dims in, Dims out) {
-    // Only required for LoadFixed() in development
-    /*std::string model_loc = loc;
-    model_loc.append("/model.struct");
-    std::ofstream file(model_loc);
-    std::stringstream buf;
-    buf << "<inp s=" << in.GetSizeStr(",") << ">\n";
-    for (int lay = 1; lay < this->layers.size(); lay++) {
-        std::stringstream layer_str;
-        layer_str << "<lay t=" << ReturnLayerStr(this->layers[lay].layer_t) << " id=" << lay << " i=" << ReturnVectorStr(this->layers[lay].input) << " d=" << ReturnVectorStr(this->layers[lay].dependents) << ">\n";
-        buf << layer_str.str();
-    }
-    buf << "<loss f=" << ReturnLossStr(this->loss_t) << ">\n";
-    buf << "<out s=" << out.GetSizeStr(",") << ">\n";
-    file << buf.str();
-    file.close();
-    */
-    
     // Trigger save on each layer
     for (int lay = 1; lay < this->layers.size(); lay++) {
         if (this->layers[lay].has_params) {
-            this->layers[lay].SaveLearnableParameters(loc, lay);
-            this->layers[lay].SaveHyperparameters(loc, lay);
+            this->layers[lay].SaveLearnableParameters(loc, lay); // Save learnable parameters
+            this->layers[lay].SaveHyperparameters(loc, lay); // Save hyperparameters
         }
     }
     
     return true;
 }
 
+// Load learnable parameters for layers
 bool Graph::LoadLayers(std::string loc) {
     for (int lay = 1; lay < this->layers.size(); lay++) {
         if (this->layers[lay].has_params) {
@@ -333,10 +338,12 @@ bool Graph::LoadLayers(std::string loc) {
     return true;
 }
 
+// Return the output size of the final layer in the graph
 Dims Graph::GetOutputSize() {
     return this->layers[layer_n - 1].output->dims;
 }
 
+// Add loss function to the graph
 void Graph::AddLoss(Loss::Loss_T loss_t) {
     switch (loss_t) {
         case Loss::L2_T:
@@ -350,6 +357,7 @@ void Graph::AddLoss(Loss::Loss_T loss_t) {
     }
 }
 
+// Returns the output of a layer
 Tensor* Graph::GetLayer(int index, Tensor* prediction) {
     if ((index < this->layer_n) && (index >= 0)) {
         return this->layers[index].output;
@@ -360,6 +368,7 @@ Tensor* Graph::GetLayer(int index, Tensor* prediction) {
     }
 }
 
+// Returns the learnable parameters of a layer
 Tensor* Graph::GetLayerParams(int index) {
     if ((index > 0) && (index < this->layer_n)) {
         if (this->layers[index].has_params == true) {

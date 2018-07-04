@@ -14,7 +14,9 @@
 #include <stdio.h>
 #include "Layer.hpp"
 
+// Manages the ability to save layer hyperparameters
 class HyperparamsHandler {
+    // Location to save to
     std::string loc;
     
 public:

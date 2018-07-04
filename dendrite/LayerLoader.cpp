@@ -9,6 +9,7 @@
 #include "LayerLoader.hpp"
 #include "Exceptions.hpp"
 
+// Convert layer type string to layer type
 Layers::Layer_T DetermineLayer(std::string t) {
     if (t == "FC") {
         return Layers::Layer_T::FullyConnected_T;
@@ -27,8 +28,9 @@ Layers::Layer_T DetermineLayer(std::string t) {
     }
 }
 
+// Parse layer from model.struct
 bool GraphLoader::ParseLayer(std::string line, GraphLoader::LayerDetails* layer) {
-    std::regex layer_exprn("<lay (t)=([A-Z]+) (id)=([0-9]+) (i)=((?:[0-9]+)(?:,[0-9]+)*) (d)=((?:[0-9]+)(?:,[0-9]+)*)>");
+    std::regex layer_exprn("<lay (t)=([A-Za-z]+) (id)=([0-9]+) (i)=((?:[0-9]+)(?:,[0-9]+)*) (d)=((?:[0-9]+)(?:,[0-9]+)*)>");
     std::smatch match;
     
     // set[] = {type, id, inpt, dpt}
@@ -101,12 +103,14 @@ bool GraphLoader::ParseLayer(std::string line, GraphLoader::LayerDetails* layer)
     }
 }
 
+// Parse loss function from model.struct
 Loss::Loss_T GraphLoader::ParseLoss(std::string line) {
     std::regex loss_exprn("<loss f=([A-Za-z0-9]+)>");
     std::smatch match;
     if (std::regex_match(line, match, loss_exprn)) {
         // Parse loss function
         if (match[1] == "L2") {
+            // Return L2 loss
             return Loss::Loss_T::L2_T;
         } else {
             throw UnsupportedLossFunction(match[1]);

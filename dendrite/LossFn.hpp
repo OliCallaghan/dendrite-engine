@@ -16,6 +16,7 @@
 #include "Exceptions.hpp"
 
 namespace Loss {
+    // Loss function structure
     struct LossFn {
         Loss::Loss_T loss_t;
         //std::function<float(Tensor*, Tensor*, dispatch_queue_t*)> Loss_Val;

@@ -14,6 +14,7 @@
 #include <regex>
 #include "Tensor.hpp"
 
+// Network Buffer Parse: Loads Input from model.struct
 namespace NetworkBufferParse {
     Dims LoadInput(std::ifstream* file);
 }

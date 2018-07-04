@@ -13,11 +13,14 @@
 #include <iostream>
 #include <vector>
 
+// Forward propagation
 void Layers::FullyConnected::Forward(Tensor** input, Tensor* output, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue) {
+    // Input, Output and Weights buffers
     void* i_gpu_ptr;
     void* l_gpu_ptr;
     void* o_gpu_ptr;
     try {
+        // Allocate memory
         i_gpu_ptr = gcl_malloc(sizeof(cl_float) * input[0]->dims.Size(), input[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
         l_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), learnable_params->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
         o_gpu_ptr = gcl_malloc(sizeof(cl_float) * output->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
@@ -29,7 +32,7 @@ void Layers::FullyConnected::Forward(Tensor** input, Tensor* output, LearnablePa
     size_t nodes = (*(Layers::FullyConnected::Hyperparameters*)params).Nodes;
     size_t output_size = nodes * input[0]->dims.dims[3];
     
-    // Execute bias addition
+    // Execute fully connected layer
     dispatch_sync(*queue, ^{
         size_t glbl_size = output_size; // Total size of output matrix
         size_t otpt_size = output->dims.Size(); // Should be same as glbl_size
@@ -41,10 +44,12 @@ void Layers::FullyConnected::Forward(Tensor** input, Tensor* output, LearnablePa
             {NULL,0,0}
         };
         
+        // Perform Matrix Multiplication
         MatrixMultiply_kernel(&range, (cl_float*)i_gpu_ptr, (cl_int)input[0]->dims.dims[0], (cl_float*)o_gpu_ptr, (cl_float*)l_gpu_ptr);
         gcl_memcpy(output->data, o_gpu_ptr, otpt_size * sizeof(cl_float));
     });
     
+    // Free memory on GPU
     gcl_free(i_gpu_ptr);
     gcl_free(l_gpu_ptr);
     gcl_free(o_gpu_ptr);
@@ -66,7 +71,7 @@ void Layers::FullyConnected::Backprop(Tensor** err, Tensor* backprop_err, Tensor
     size_t nodes = learnable_params->dims.dims[0];
     size_t output_size = nodes * err[0]->dims.dims[3];
     
-    // Execute bias addition
+    // Execute fully connected layer backpropagation
     dispatch_sync(*queue, ^{
         size_t glbl_size = output_size; // Total size of output matrix
         size_t otpt_size = backprop_err->dims.Size(); // Should be same as glbl_size
@@ -78,21 +83,25 @@ void Layers::FullyConnected::Backprop(Tensor** err, Tensor* backprop_err, Tensor
             {NULL,0,0}
         };
         
+        // Backpropagate deltas
         MatrixMultiplyTranspose_kernel(&range, (cl_float*)err_gpu_ptr, (cl_int)err[0]->dims.dims[0], (cl_float*)backproperr_gpu_ptr, (cl_float*)l_gpu_ptr);
         gcl_memcpy(backprop_err->data, backproperr_gpu_ptr, otpt_size * sizeof(cl_float));
     });
     
+    // Free memory on GPU
     gcl_free(err_gpu_ptr);
     gcl_free(l_gpu_ptr);
     gcl_free(backproperr_gpu_ptr);
 }
 
 void Layers::FullyConnected::UpdateWeights(Tensor* deriv, Tensor* input, LearnableParameters* learnable_params, void* params, float eta, dispatch_queue_t* queue) {
+    // Memory buffers
     void* deriv_gpu_ptr;
     void* l_gpu_ptr;
     void* wd_gpu_ptr;
     void* input_gpu_ptr;
     try {
+        // Allocate memory
         deriv_gpu_ptr = gcl_malloc(sizeof(cl_float) * deriv->dims.Size(), deriv->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
         l_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), learnable_params->data, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR);
         wd_gpu_ptr = gcl_malloc(sizeof(cl_float) * learnable_params->dims.Size(), NULL, CL_MEM_READ_WRITE); // weight derivatives
@@ -102,8 +111,7 @@ void Layers::FullyConnected::UpdateWeights(Tensor* deriv, Tensor* input, Learnab
         throw InsufficientHardware();
     }
     
-    
-    // Execute bias addition
+    // Execute fully connected layer updates
     dispatch_sync(*queue, ^{
         size_t l_x = learnable_params->dims.dims[0];
         size_t l_y = learnable_params->dims.dims[1];
@@ -126,23 +134,28 @@ void Layers::FullyConnected::UpdateWeights(Tensor* deriv, Tensor* input, Learnab
             {NULL,0,0}
         };
         
+        // Calculate derivates with respect to each weight
         CalculateWeightDerivatives_kernel(&cwd_range, (cl_float*)deriv_gpu_ptr, (cl_float*)input_gpu_ptr, (cl_float*)wd_gpu_ptr);
+        // Update each weight
         UpdateWeights_kernel(&uw_range, (cl_float*) wd_gpu_ptr, (cl_float*)l_gpu_ptr, eta);
         gcl_memcpy(learnable_params->data, l_gpu_ptr, l_x * l_y * sizeof(cl_float));
     });
     
+    // Free memory on GPU
     gcl_free(deriv_gpu_ptr);
     gcl_free(l_gpu_ptr);
     gcl_free(wd_gpu_ptr);
     gcl_free(input_gpu_ptr);
 }
 
+// Initialise hyperparameters
 Layers::FullyConnected::Hyperparameters::Hyperparameters(int Nodes) {
     this->Nodes = Nodes;
     this->mean = 0;
     this->stddev = 0.1;
 }
 
+// Initialise hyperparameters
 Layers::FullyConnected::Hyperparameters::Hyperparameters(int Nodes, float mean, float stddev) {
     this->Nodes = Nodes;
     this->mean = mean;
@@ -160,6 +173,7 @@ Dims Layers::FullyConnected::CalcOutputSize(Dims input, Hyperparameters params) 
     return output;
 }
 
+// Initialise learnable parameters
 LearnableParameters* Layers::FullyConnected::InitialiseLearnableParameters(Layers::FullyConnected::Hyperparameters p, Dims dims) {
     LearnableParameters* params = new LearnableParameters(Dims({dims.dims[0], p.Nodes, 1, 1}));
     params->InitialiseNormal(p.mean, p.stddev);

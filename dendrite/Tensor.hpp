@@ -25,6 +25,7 @@ struct Dims {
     std::string GetSizeStr(std::string);
 };
 
+// Tensor primitive
 class Tensor {
 public:
     Dims dims;
@@ -32,7 +33,6 @@ public:
     
     Tensor(Dims d);
     Tensor(std::vector<int> d);
-    void LoadData(float* data);
     std::string GetDataStr() const;
     std::string GetMNISTDataStr();
 };

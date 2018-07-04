@@ -8,10 +8,12 @@
 
 #include "BinaryFile.hpp"
 
+// Constructor
 BinaryFileHandler::BinaryFileHandler(std::string loc) : file(loc, std::ios::in | std::ios::binary), location(loc) {
     this->file.seekg(0);
 }
 
+// Destructor
 BinaryFileHandler::~BinaryFileHandler() {
     this->file.close();
 }
@@ -31,6 +33,7 @@ void BinaryFileHandler::Increment(long n) {
     }
 }
 
+// Reads bits instead of bytes
 void BinaryFileReader::ReadBitsToTensor(BinaryFileHandler* handler, Tensor* buffer, long bits) {
     if (bits > buffer->dims.Size()) {
         throw IncorrectReadSize(bits, buffer->dims.Size(), true);

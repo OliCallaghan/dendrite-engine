@@ -15,20 +15,19 @@
 #include "LearnableParameters.hpp"
 #include "Exceptions.hpp"
 
+// Bias methods
 namespace Layers {
     namespace Bias {
         void Forward(Tensor** input, Tensor* output, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue);
         void BackpropDeltas(Tensor** deltas, Tensor* backpropagated_deltas, Tensor* inp, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue);
         void UpdateWeights(Tensor* deltas, Tensor* input, LearnableParameters* learnable_parameters, void* params, float eta, dispatch_queue_t* queue);
 
-        
         struct Hyperparameters {
-            float mean;
-            float stddev;
+            float mean; // Mean of normally distributed weights
+            float stddev; // Standard deviation of noramlly distributed weights
             Hyperparameters(float, float);
             Hyperparameters();
         };
-
         
         LearnableParameters* InitialiseLearnableParameters(Layers::Bias::Hyperparameters p, Dims dims);
         Dims CalcOutputSize(Dims input);

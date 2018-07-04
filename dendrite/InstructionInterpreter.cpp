@@ -8,6 +8,7 @@
 
 #include "InstructionInterpreter.hpp"
 
+// Extract intial jump location from data pipeline
 long GetJumpLocation(std::ifstream* file) {
     std::string line;
     getline(*file, line);
@@ -18,7 +19,7 @@ long GetJumpLocation(std::ifstream* file) {
     long pos = 0;
     
     if (std::regex_match(line, match, loss_exprn)) {
-        // Parse loss function
+        // Parse position
         pos = atol(match[1].str().c_str());
     } else {
         throw GenericInstructionError("Second line of pipeline must be JUMP statement");
@@ -27,6 +28,7 @@ long GetJumpLocation(std::ifstream* file) {
     return pos;
 }
 
+// Extract repeat location from model.struct
 long GetRepeatLocation(long start_pos, std::ifstream* file) {
     std::string line;
     getline(*file, line);
@@ -38,7 +40,7 @@ long GetRepeatLocation(long start_pos, std::ifstream* file) {
     long e_pos = 0;
     
     if (std::regex_match(line, match, loop_exp)) {
-        // Parse loss function
+        // Parse repeat location
         s_pos = atol(match[1].str().c_str());
         e_pos = atol(match[2].str().c_str());
     } else {
@@ -56,6 +58,7 @@ long GetRepeatLocation(long start_pos, std::ifstream* file) {
     return e_pos;
 }
 
+// Convert data type string to data type
 Pipeline::Data_T GetDataTypeFromStr(std::string type) {
     if (type == "UNSIGNED CHAR") {
         return Pipeline::Data_T::U_CHAR;
@@ -74,6 +77,7 @@ Pipeline::Data_T GetDataTypeFromStr(std::string type) {
     }
 }
 
+// Convert data type to data type string
 std::string GetStrFromDataType(Pipeline::Data_T type) {
     if (type == Pipeline::Data_T::U_CHAR) {
         return "UNSIGNED CHAR";
@@ -94,6 +98,7 @@ std::string GetStrFromDataType(Pipeline::Data_T type) {
     }
 }
 
+// Convert operation type to operation type string
 std::string GetStrFromOp(Pipeline::Operation_T type) {
     switch (type) {
         case Pipeline::Operation_T::READ:
@@ -116,6 +121,7 @@ std::string GetStrFromOp(Pipeline::Operation_T type) {
     }
 }
 
+// Load next instruction for data pipeline file
 Pipeline::Operation* LoadNextIntruction(std::ifstream* file) {
     std::string line;
     getline(*file, line);
@@ -128,8 +134,9 @@ Pipeline::Operation* LoadNextIntruction(std::ifstream* file) {
     std::regex repeat_rgx("REPEAT");
     std::smatch match;
     
+    // Parse instruction
     if (std::regex_match(line, match, read_rgx)) {
-        // Read instruction
+        // READ instruction
         Pipeline::Data_T type = GetDataTypeFromStr(match[2].str());
         return new Pipeline::Operation(Pipeline::Operation_T::READ, atol(match[1].str().c_str()), type, NULL);
     } else if (std::regex_match(line, match, mul_rgx)) {
@@ -152,6 +159,7 @@ Pipeline::Operation* LoadNextIntruction(std::ifstream* file) {
     }
 }
 
+// Print output instruction queue to console (used in development)
 void InstructionInterpreter::OutputInstructionQueue() {
     for (int loc = 0; loc < this->op_list.size(); loc++) {
         std::cout << "[ ";
@@ -166,29 +174,36 @@ void InstructionInterpreter::OutputInstructionQueue() {
     }
 }
 
+// Softmax classification
 bool SOFTMAX_CF(Tensor* output, Tensor* should_output, float loss_threshold) {
     float max = 0;
     int max_pos = 0;
     for (int i = 0; i < output->dims.Size(); i++) {
         if (output->data[i] > max) {
+            // Found maximum value in output tensor
             max = output->data[i];
             max_pos = i;
         }
     }
     
     if (should_output->data[max_pos] == 1) {
+        // Check if maximum value in output tensor corresponds with value in exepcted output
         return true;
     }
+    // Incorrect classification
     return false;
 }
 
+// L2 classification
 bool L2_CF(Tensor* output, Tensor* should_output, float loss_threshold) {
     float loss_total = 0;
     for (int i = 0; i < output->dims.Size(); i++) {
         if (pow(output->data[i] - should_output->data[i], 2) > pow(loss_threshold,2)) {
+            // Count number of output values which are within the threshold of the exepected output
             loss_total += 1;
         }
     }
+    // Return the accuracy
     float loss = loss_total / output->dims.Size();
     if (loss < loss_threshold) {
         return true;
@@ -196,6 +211,7 @@ bool L2_CF(Tensor* output, Tensor* should_output, float loss_threshold) {
     return false;
 }
 
+// Initialise data pipeline
 InstructionInterpreter::InstructionInterpreter(std::string loc, Tensor* buf) : ten(buf), file(loc, std::ios::in) {
     std::string line;
     
@@ -233,43 +249,51 @@ InstructionInterpreter::~InstructionInterpreter() {
     this->file.close();
 }
 
+// READ instruction method
 template <class T> void READ_F(BinaryFileHandler* handler, Tensor* buffer, long bytes, float param) {
     BinaryFileReader::ReadBytesToTensor<T>(handler, buffer, bytes);
 }
 
+// READ BIT instruction method
 void READ_BIT(BinaryFileHandler* handler, Tensor* buffer, long bytes, float param) {
     // BYTES SHOULD ACTUALLY BE BITS
     BinaryFileReader::ReadBitsToTensor(handler, buffer, bytes);
 }
 
+// DIVIDE instruction method
 void DIV_F(BinaryFileHandler* handler, Tensor* buffer, long bytes, float param) {
     for (int pos = 0; pos < buffer->dims.Size(); pos++) {
         buffer->data[pos] = buffer->data[pos] / param;
     }
 }
 
+// MULTIPLY instruction method
 void MUL_F(BinaryFileHandler* handler, Tensor* buffer, long bytes, float param) {
     for (int pos = 0; pos < buffer->dims.Size(); pos++) {
         buffer->data[pos] = buffer->data[pos] * param;
     }
 }
 
+// ADD instruction method
 void ADD_F(BinaryFileHandler* handler, Tensor* buffer, long bytes, float param) {
     for (int pos = 0; pos < buffer->dims.Size(); pos++) {
         buffer->data[pos] += param;
     }
 }
 
+// SOFTMAX instruction method
 void SOFTMAX_F(BinaryFileHandler* handler, Tensor* buffer, long bytes, float param) {
     // FIRST ELEM = SOFTMAX PREDICTION
     int l = buffer->data[0];
     
+    // Convert to softmax distribution
     for (int i = 0; i <= param; i++) {
         buffer->data[i] = 0;
     }
     buffer->data[l] = 1;
 }
 
+// Intiailise instruction
 Pipeline::Operation::Operation(Pipeline::Operation_T i_t, long bytes, Data_T d_t, float param) {
     // Initialise Object
     this->operation = i_t;
@@ -328,6 +352,7 @@ Pipeline::Operation::Operation(Pipeline::Operation_T i_t, long bytes, Data_T d_t
     }
 }
 
+// Load next data batch from file
 void InstructionInterpreter::LoadNextDataBatch() {
     try {
         for (int instr = 0; instr < this->op_list.size(); instr++) {

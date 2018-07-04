@@ -18,6 +18,7 @@
 #include "Layer.hpp"
 #include "Loss.hpp"
 
+// Loads layers from model.struct
 namespace GraphLoader {
     struct LayerDetails {
         Layers::Layer_T type;

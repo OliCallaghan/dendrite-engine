@@ -9,11 +9,13 @@
 #include "Command.hpp"
 #include <iostream>
 
+// Initialise command object
 Commands::Command::Command(Commands::Command_T type, int param) {
     this->t = type;
     this->p = param;
 }
 
+// Intepret issued command
 Commands::Command Commands::MatchCommand(std::string cmd_str) {
     std::smatch match;
     std::regex GetLayerDimsRGX("DIMS([0-9]+)");

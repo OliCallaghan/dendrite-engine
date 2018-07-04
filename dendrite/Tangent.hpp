@@ -15,6 +15,7 @@
 #include "LearnableParameters.hpp"
 #include <OpenCL/opencl.h>
 
+// Tanh methods
 namespace Layers {
     namespace Tanh {
         void Forward(Tensor** input, Tensor* output, LearnableParameters* learnable_params, void* params, dispatch_queue_t* queue);

@@ -19,10 +19,12 @@
 #include "Tensor.hpp"
 
 namespace Pipeline {
+    // Operation Types
     enum Operation_T {
         DIV, MUL, ADD, READ, SOFTMAX
     };
     
+    // Data Types
     enum Data_T {
         CHAR, U_CHAR,
         INT, U_INT,
@@ -31,6 +33,7 @@ namespace Pipeline {
         NONE
     };
     
+    // Operation Class
     class Operation {
     public:
         Operation_T operation;
@@ -44,6 +47,7 @@ namespace Pipeline {
     };
 }
 
+// Instruction Interpreter Class
 class InstructionInterpreter {
     Tensor* ten;
     std::vector<Pipeline::Operation> op_list;

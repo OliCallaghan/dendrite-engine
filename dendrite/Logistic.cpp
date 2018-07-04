@@ -10,9 +10,11 @@
 #include "Logistic.cl.h"
 
 void Layers::Logistic::Forward(Tensor** input, Tensor* output, LearnableParameters* lparams, void* params, dispatch_queue_t* queue) {
+    // Input and output buffers
     void* i_gpu_ptr;
     void* o_gpu_ptr;
     try {
+        // Allocate memory
         i_gpu_ptr = gcl_malloc(sizeof(cl_float) * input[0]->dims.Size(), input[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
         o_gpu_ptr = gcl_malloc(sizeof(cl_float) * output->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
     } catch (...) {
@@ -22,7 +24,7 @@ void Layers::Logistic::Forward(Tensor** input, Tensor* output, LearnableParamete
     
     size_t output_size = output->dims.Size();
     
-    // Execute bias addition
+    // Execute LOG
     dispatch_sync(*queue, ^{
         size_t glbl_size = output_size; // Total size of output matrix
         
@@ -33,20 +35,25 @@ void Layers::Logistic::Forward(Tensor** input, Tensor* output, LearnableParamete
             {NULL,0,0}
         };
         
+        // Execute Logistic
         Logistic_kernel(&range, (cl_float*)i_gpu_ptr, (cl_float*)o_gpu_ptr);
+        // Copy buffers from GPU to CPU
         gcl_memcpy(output->data, o_gpu_ptr, output_size * sizeof(cl_float));
     });
     
+    // Free memory on GPU
     gcl_free(i_gpu_ptr);
     gcl_free(o_gpu_ptr);
 }
 
 void Layers::Logistic::Backprop(Tensor** err, Tensor* backprop_err, Tensor* inp, LearnableParameters* lparams, void* params, dispatch_queue_t* queue) {
-    void* d_gpu_ptr;
-    void* inpt_gpu_ptr;
-    void* bd_gpu_ptr;
+    // Memory buffers
+    void* d_gpu_ptr; // Deltas
+    void* inpt_gpu_ptr; // Input
+    void* bd_gpu_ptr; // Backpropagated Deltas
     
     try {
+        // Allocate memory
         d_gpu_ptr = gcl_malloc(sizeof(cl_float) * err[0]->dims.Size(), err[0]->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
         inpt_gpu_ptr = gcl_malloc(sizeof(cl_float) * inp->dims.Size(), inp->data, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR);
         bd_gpu_ptr = gcl_malloc(sizeof(cl_float) * backprop_err->dims.Size(), NULL, CL_MEM_WRITE_ONLY);
@@ -57,7 +64,7 @@ void Layers::Logistic::Backprop(Tensor** err, Tensor* backprop_err, Tensor* inp,
     
     size_t output_size = backprop_err->dims.Size();
     
-    // Execute bias addition
+    // Execute LOG
     dispatch_sync(*queue, ^{
         size_t glbl_size = output_size; // Total size of output matrix
         
@@ -68,10 +75,13 @@ void Layers::Logistic::Backprop(Tensor** err, Tensor* backprop_err, Tensor* inp,
             {NULL,0,0}
         };
         
+        // Backpropagate deltas
         Backprop_kernel(&range, (cl_float*)inpt_gpu_ptr, (cl_float*)d_gpu_ptr, (cl_float*)bd_gpu_ptr);
+        // Copy data from GPU to CPU
         gcl_memcpy(backprop_err->data, bd_gpu_ptr, output_size * sizeof(cl_float));
     });
     
+    // Free memory on GPU
     gcl_free(d_gpu_ptr);
     gcl_free(inpt_gpu_ptr);
     gcl_free(bd_gpu_ptr);

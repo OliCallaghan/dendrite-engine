@@ -81,7 +81,7 @@ const char* UnsupportedLossFunction::what() const throw() {
 
 FailedLoadingHP::FailedLoadingHP(short id, std::string t) {
     std::stringstream err_msg_strm;
-    err_msg_strm << "Failure loading hyperparameters for layer " << id << ", type: " << t;
+    err_msg_strm << "Failure loading hyperparameters for layer " << id << ", type: " << t << "\n";
     this->err_msg = err_msg_strm.str();
 }
 
@@ -91,7 +91,7 @@ const char* FailedLoadingHP::what() const throw() {
 
 FailedLoadingLP::FailedLoadingLP(short id, std::string t) {
     std::stringstream err_msg_strm;
-    err_msg_strm << "Failure loading learnable parameters for layer " << id << ", type: " << t;
+    err_msg_strm << "Failure loading learnable parameters for layer " << id << ", type: " << t << "\n";
     this->err_msg = err_msg_strm.str();
 }
 
